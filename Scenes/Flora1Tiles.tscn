@@ -6,84 +6,105 @@
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 0, 0, 128, 368 )
 
 [node name="Sprite2" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 144, 0, 128, 368 )
 
 [node name="Sprite3" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 288, 0, 112, 368 )
 
 [node name="Sprite4" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 416, 0, 304, 368 )
 
 [node name="Sprite5" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 736, 0, 176, 368 )
 
 [node name="Sprite6" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 0, 384, 128, 368 )
 
 [node name="Sprite7" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 144, 384, 128, 368 )
 
 [node name="Sprite8" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 288, 384, 112, 368 )
 
 [node name="Sprite9" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 416, 384, 304, 368 )
 
 [node name="Sprite10" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 736, 384, 176, 368 )
 
 [node name="Sprite11" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 736, 896, 112, 176 )
 
 [node name="Sprite12" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 816, 768, 96, 144 )
 
 [node name="Sprite13" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 544, 912, 192, 160 )
 
 [node name="Sprite14" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 256, 912, 272, 160 )
 
 [node name="Sprite15" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 0, 960, 240, 112 )
 
 [node name="Sprite16" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 32, 896, 144, 64 )
 
 [node name="Sprite17" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 0, 768, 144, 64 )
 
 [node name="Sprite18" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 160, 768, 240, 112 )
 
 [node name="Sprite19" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 416, 768, 144, 96 )
 
 [node name="Sprite20" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 576, 768, 240, 128 )
 
 [node name="Sprite21" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+region_enabled = true
 region_rect = Rect2( 576, 768, 240, 128 )
