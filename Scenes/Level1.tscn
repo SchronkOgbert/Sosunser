@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Tilesets/DefaultTiles.tres" type="TileSet" id=1]
 [ext_resource path="res://Textures/FPSET1_v1.0/_PNG/SET1_bakcground_day1.png" type="Texture" id=2]
@@ -6,27 +6,37 @@
 [ext_resource path="res://Tilesets/FloraBGTiles.tres" type="TileSet" id=4]
 [ext_resource path="res://Scenes/Coin.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/FallZone.tscn" type="PackedScene" id=7]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Background" type="Sprite" parent="."]
-position = Vector2( 599.862, 56 )
+[node name="Background" type="ParallaxBackground" parent="."]
 scale = Vector2( 4.33741, 3.84328 )
-z_index = -1
-z_as_relative = false
+transform = Transform2D( 4.33741, 0, 0, 3.84328, 0, 0 )
+
+[node name="Clouds" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2( 0, 0 )
+motion_mirroring = Vector2( 1, 1 )
+
+[node name="Sprite" type="Sprite" parent="Background/Clouds"]
+position = Vector2( -200, -128 )
 texture = ExtResource( 2 )
+centered = false
 script = ExtResource( 3 )
 
-[node name="CloudMovementTimer" type="Timer" parent="Background"]
+[node name="CloudMovementTimer" type="Timer" parent="Background/Clouds/Sprite"]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background"]
+motion_mirroring = Vector2( 1024, 1024 )
+
 [node name="BGFlora" type="TileMap" parent="."]
 tile_set = ExtResource( 4 )
-cell_size = Vector2( 48, 16 )
+cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 720900, 8, 0, 720907, 10, 0, 786450, 8, 0, 1376260, 15, 0, 1376273, 15, 0 )
+tile_data = PoolIntArray( -655360, 1, 0, -655356, 1, 0, -655352, 1, 0, -655348, 1, 0, -655344, 1, 0, -655340, 1, 0, -655336, 1, 0, -655332, 1, 0, 65536, 6, 0, 65540, 6, 0, 65544, 5, 0, 65548, 0, 0, 65552, 0, 0, 65556, 2, 0, 65559, 3, 0 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
@@ -59,3 +69,12 @@ smoothing_enabled = true
 smoothing_speed = 15.0
 drag_margin_left = 0.25
 drag_margin_top = 0.25
+
+[node name="FallZone" parent="." instance=ExtResource( 7 )]
+position = Vector2( 161.882, 665.683 )
+scale = Vector2( 1024, 1 )
+gravity_vec = Vector2( 0, 0 )
+gravity = 0.0
+collision_layer = 4
+
+[connection signal="body_entered" from="FallZone" to="Player" method="_on_FallZone_body_entered"]

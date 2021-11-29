@@ -14,8 +14,6 @@ public class Player : KinematicBody2D
     public float speed = 150;
     private Vector2 velocity;
     private float speedMultiplier = 1;
-    private float jump = 5;
-    private Vector2 fallVelocity; 
     private Vector2 actualFallVelocity;
     private Vector2 terminalVelocity = new Vector2(0, 1000);
     private bool isJumping = false;
