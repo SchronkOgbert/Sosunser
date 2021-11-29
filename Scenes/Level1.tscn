@@ -9,6 +9,19 @@
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 599.862, 56 )
+scale = Vector2( 4.33741, 3.84328 )
+z_index = -1
+z_as_relative = false
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="CloudMovementTimer" type="Timer" parent="Background"]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
 [node name="BGFlora" type="TileMap" parent="."]
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 48, 16 )
@@ -32,10 +45,10 @@ position = Vector2( 121.489, 369.661 )
 position = Vector2( 240.539, 370.612 )
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
-position = Vector2( 87.862, 256 )
-scale = Vector2( 1, 1 )
+position = Vector2( 92.3483, 370.953 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( -80.5192, 333.731 )
 offset = Vector2( 0, -128 )
 current = true
 limit_bottom = 700
@@ -46,16 +59,3 @@ smoothing_enabled = true
 smoothing_speed = 15.0
 drag_margin_left = 0.25
 drag_margin_top = 0.25
-
-[node name="Background" type="Sprite" parent="Player/Camera2D"]
-position = Vector2( 512, -200 )
-scale = Vector2( 4.33741, 3.84328 )
-z_index = -1
-z_as_relative = false
-texture = ExtResource( 2 )
-script = ExtResource( 3 )
-
-[node name="CloudMovementTimer" type="Timer" parent="Player/Camera2D/Background"]
-wait_time = 0.5
-one_shot = true
-autostart = true
