@@ -90,12 +90,13 @@ tracks/2/keys = {
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 23.6013
-height = 18.5228
+height = 10.514
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 2
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 hframes = 15
@@ -105,7 +106,6 @@ anims/idle = SubResource( 1 )
 anims/run = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-light_mask = 1023
+light_mask = 1022
 position = Vector2( 4.00452, -5.33936 )
 shape = SubResource( 3 )

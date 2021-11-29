@@ -9,12 +9,6 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Background" type="Sprite" parent="."]
-position = Vector2( 510.664, 296.631 )
-scale = Vector2( 4.33741, 3.84328 )
-texture = ExtResource( 2 )
-script = ExtResource( 3 )
-
 [node name="BGFlora" type="TileMap" parent="."]
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 48, 16 )
@@ -24,6 +18,7 @@ tile_data = PoolIntArray( 720900, 8, 0, 720907, 10, 0, 786450, 8, 0, 1376260, 15
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 48, 16 )
+show_collision = true
 format = 1
 tile_data = PoolIntArray( 1441802, 6, 0, 1441803, 6, 0, 1441804, 6, 0, 1507337, 0, 0, 1507338, 2, 0, 1507339, 2, 0, 1507340, 2, 0, 1507341, 0, 0, 1507342, 0, 0, 1507343, 0, 0, 1638400, 7, 0, 1638401, 7, 0, 1638402, 7, 0, 1638403, 7, 0, 1638404, 7, 0, 1638405, 7, 0, 1638406, 7, 0, 1638407, 7, 0, 1638408, 7, 0, 1638416, 6, 0, 1638417, 6, 0, 1638418, 6, 0, 1638419, 6, 0, 1638420, 6, 0, 1638421, 6, 0, 1703936, 4, 0, 1703937, 4, 0, 1703938, 4, 0, 1703939, 4, 0, 1703940, 4, 0, 1703941, 4, 0, 1703942, 4, 0, 1703943, 4, 0, 1703944, 4, 0, 1703945, 4, 0, 1703946, 4, 0, 1703947, 4, 0, 1703948, 4, 0, 1703949, 4, 0, 1703950, 4, 0, 1703951, 4, 0, 1703952, 4, 0, 1703953, 4, 0, 1703954, 4, 0, 1703955, 4, 0, 1703956, 4, 0, 1703957, 4, 0, 1769472, 4, 0, 1769473, 4, 0, 1769474, 4, 0, 1900544, 4, 0, 1900545, 4, 0, 1900546, 4, 0, 1900547, 4, 0, 1900548, 4, 0, 1900549, 4, 0, 1900550, 4, 0, 1900551, 4, 0, 1900552, 4, 0, 1900553, 4, 0, 1900554, 5, 0, 1900555, 5, 0, 1900556, 5, 0, 1900557, 5, 0, 1900558, 5, 0, 1900559, 5, 0, 1900560, 5, 0, 1900561, 5, 0, 1900562, 4, 0, 1900563, 4, 0, 1900564, 4, 0, 1900565, 4, 0, 1966089, 5, 0, 1966090, 5, 0, 1966091, 5, 0, 1966092, 5, 0, 2162687, 4, 0, 2097152, 4, 0, 2097153, 4, 0, 2097154, 4, 0, 2097155, 4, 0, 2097156, 4, 0, 2097157, 4, 0, 2097158, 4, 0, 2097159, 4, 0, 2097160, 4, 0, 2097161, 4, 0, 2097162, 4, 0, 2097163, 4, 0, 2097164, 4, 0, 2097165, 4, 0, 2097166, 4, 0, 2097167, 4, 0, 2097168, 4, 0, 2097169, 4, 0, 2097170, 1, 0, 2097171, 4, 0, 2097172, 4, 0, 2097173, 4, 0, 2293760, 4, 0, 2293761, 4, 0, 2293762, 4, 0, 2293763, 4, 0, 2293764, 4, 0, 2293765, 4, 0, 2293766, 4, 0, 2293767, 4, 0, 2293768, 4, 0, 2293769, 4, 0, 2293770, 4, 0, 2293771, 4, 0, 2293772, 4, 0, 2293773, 4, 0, 2293774, 4, 0, 2293775, 4, 0, 2293776, 4, 0, 2293777, 4, 0, 2293778, 4, 0, 2293779, 4, 0, 2293780, 4, 0, 2293781, 4, 0 )
 
@@ -37,4 +32,30 @@ position = Vector2( 121.489, 369.661 )
 position = Vector2( 240.539, 370.612 )
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
-position = Vector2( 47.1497, 376.17 )
+position = Vector2( 87.862, 256 )
+scale = Vector2( 1, 1 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+offset = Vector2( 0, -128 )
+current = true
+limit_bottom = 700
+limit_smoothed = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+smoothing_speed = 15.0
+drag_margin_left = 0.25
+drag_margin_top = 0.25
+
+[node name="Background" type="Sprite" parent="Player/Camera2D"]
+position = Vector2( 512, -200 )
+scale = Vector2( 4.33741, 3.84328 )
+z_index = -1
+z_as_relative = false
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="CloudMovementTimer" type="Timer" parent="Player/Camera2D/Background"]
+wait_time = 0.5
+one_shot = true
+autostart = true

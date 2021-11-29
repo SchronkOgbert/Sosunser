@@ -3,13 +3,19 @@ using System;
 
 public class Player : KinematicBody2D
 {
+    //physics
+    private float gravity = 9.8f;
+
     //movement
-    const float default_run_speed = 150;
+    private const float default_run_speed = 150;
     const float default_sprint_speed = 250;
     [Export]
     public float speed = 150;
     private Vector2 velocity;
     private float speedMultiplier = 1;
+    private float jump = 5;
+    private Vector2 fallVelocity; 
+    private Vector2 terminalVelocity = new Vector2(0, 1000);
     
     //references
     private Sprite sprite;
@@ -29,7 +35,7 @@ public class Player : KinematicBody2D
         //player.Play("idle");
     }
 
-    private void handle_movement(float delta)
+    private void checkMovement()
     {
         if(Input.IsKeyPressed(68))
         {
@@ -54,18 +60,33 @@ public class Player : KinematicBody2D
             velocity = Vector2.Zero;
             player.Play("idle");
         }
-        if(velocity.x != 0)
+    }
+
+    private void checkSprint()
+    {
+        if(Input.IsActionJustPressed("sprint"))
         {
-            if(Input.IsKeyPressed(16777237))
-            {
-                speed = default_sprint_speed;
-            }
-            else
-            {
-                speed = default_run_speed;
-            }
-            MoveAndSlide(velocity * delta * 75);
-            player.Play("run", -1, 2);
+            speed = default_sprint_speed;
+        }
+        if(Input.IsActionJustReleased("sprint"))
+        {
+            speed = default_run_speed;
+        }
+    }
+
+    private void move(Vector2 velocity, float delta)
+    {
+        MoveAndSlide(velocity * delta * 75);
+        player.Play("run", -1, 0.013f * speed);
+    }
+
+    private void handleMovement(float delta)
+    {
+        checkMovement();
+        checkSprint();
+        if(velocity.x != 0)
+        {            
+            move(this.velocity, delta);
         }
         else
         {
@@ -73,9 +94,34 @@ public class Player : KinematicBody2D
         }
     }
 
+    private void handleGravity(float delta)
+    {
+        if(!IsOnFloor())
+        {
+            fallVelocity.y += 9.8f;
+            if(fallVelocity.y > terminalVelocity.y)
+            {
+                fallVelocity.y = terminalVelocity.y;
+            }
+            MoveAndSlide(fallVelocity * delta * 75);
+            //GD.Print("falling"); 
+        }
+        else
+        {
+            fallVelocity.y = 0;
+            //GD.Print("not falling"); 
+        }
+    }
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        handle_movement(delta);
+        handleMovement(delta);
+        handleGravity(delta);
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        base._PhysicsProcess(delta);
     }
 }
