@@ -90,7 +90,7 @@ public class Enemy : KinematicBody2D
     private void computeTargetDestination()
     {
         targetDestination.x = targetDestination.x + (goesRight * patrolLength);
-        GD.Print(targetDestination, Position, "at speed", velocity.x);
+        //GD.Print(targetDestination, Position, "at speed", velocity.x);
     }
 
     private void handlePatrol()
@@ -98,23 +98,24 @@ public class Enemy : KinematicBody2D
         if(compareFloatsWithError(Position.x, targetDestination.x, 5))
         {
             //GD.Print("target destination reached");
+            if(timer.IsStopped() && velocity.x != 0)
+            {
+                GD.Print("timer started");
+                timer.Start();
+            }
             if(timer.TimeLeft > 0)
             {
-                velocity.x = 0;
-                if(timer.IsStopped())
-                {
-                    timer.Start();
-                }
+                velocity.x = 0;                
                 return;
             }
-            GD.Print("changing direction to: ", Math.Abs(Position.x - targetDestination.x));
+            GD.Print("timer stopped");
+            //GD.Print("changing direction to: ", Math.Abs(Position.x - targetDestination.x));
             goesRight = -1* goesRight;
             velocity.x = speed * goesRight;
             sprite.FlipH = !sprite.FlipH;
             computeTargetDestination();
             timer.Start();
-        }
-        
+        }        
     }
 
     private void handleMovement(float delta)

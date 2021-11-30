@@ -32,15 +32,15 @@ public class Player : KinematicBody2D
     public void addCoins(int amount = 1, bool playAnimation = true)
     {
         coins += amount;
-        GD.Print("added", amount, "coin");
+        //GD.Print("added", amount, "coin");
         if(gameHUD == null)
         {
-            GD.Print("hud is null");
+            //GD.Print("hud is null");
             gameHUD = (GameHUD)GetTree().CurrentScene.GetNode("GameHUD");
         }
         if(gameHUD != null)
         {
-            GD.Print("hud is now valid");
+            //GD.Print("hud is now valid");
             gameHUD.addCoins(amount, playAnimation);
         }
     }
@@ -71,14 +71,14 @@ public class Player : KinematicBody2D
         {
             isJumping = true;
             velocity.y = JUMP_FORCE;
-            GD.Print("jumping");
+            //GD.Print("jumping");
             //player.Play("jump_start");
         }
     }
 
     private void longJump()
     {
-        GD.Print("checking short jump");
+        //GD.Print("checking short jump");
         if(!Input.IsActionPressed("jump"))
         {
             velocity.y = 0;
@@ -131,7 +131,7 @@ public class Player : KinematicBody2D
         {
             if(velocity.x != 0)
             {
-                player.Play("run", -1, 0.013f * speed);
+                player.Play("run", -1, speed / DEFAULT_RUN_SPEED);
             }
             else
             {
