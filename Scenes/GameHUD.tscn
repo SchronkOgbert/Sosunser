@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/PressStart2P-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/coins_hud.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Scripts/GameHUD.cs" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.462745, 0.435294, 0.435294, 0.427451 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_char = 2
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "add_coin"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Coins:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1, 1 ) ]
+}
+
+[node name="GameHUD" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Coins" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.341176 )
+margin_left = 20.0
+margin_top = 70.0
+margin_right = 158.0
+margin_bottom = 129.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Coins"]
+margin_left = 8.0
+margin_top = 10.0
+margin_right = 51.0
+margin_bottom = 52.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Coins"]
+margin_left = 54.5
+margin_top = 14.5
+margin_right = 122.5
+margin_bottom = 47.5
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.941176, 0.454902, 1 )
+custom_colors/font_outline_modulate = Color( 0.517647, 0.262745, 0.262745, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/add_coin = SubResource( 3 )

@@ -17,11 +17,33 @@ public class Player : KinematicBody2D
     private Vector2 actualFallVelocity;
     private Vector2 terminalVelocity = new Vector2(0, 1000);
     private bool isJumping = false;
+
+    //items and abilities
+    private int coins = 0;
+    private float maxHP = 16;
+    private float currentHP = 16;
     
     //references
     private Sprite sprite;
     private AnimationPlayer player;
     private Timer jumpTimer;
+    private GameHUD gameHUD;
+
+    public void addCoins(int amount = 1, bool playAnimation = true)
+    {
+        coins += amount;
+        GD.Print("added", amount, "coin");
+        if(gameHUD == null)
+        {
+            GD.Print("hud is null");
+            gameHUD = (GameHUD)GetTree().CurrentScene.GetNode("GameHUD");
+        }
+        if(gameHUD != null)
+        {
+            GD.Print("hud is now valid");
+            gameHUD.addCoins(amount, playAnimation);
+        }
+    }
 
     // Called when the node enters the scene tree for the first time.
 
@@ -30,12 +52,17 @@ public class Player : KinematicBody2D
         base._Draw();
         sprite = (Sprite)GetNode("Sprite");
         player = (AnimationPlayer)GetNode("AnimationPlayer");
+        gameHUD = (GameHUD)GetTree().CurrentScene.GetNode("GameHUD");
     }
 
     public override void _Ready()
     {
         //player.Play("idle");
         velocity.y = 1;
+        if(gameHUD != null)
+        {
+            gameHUD.addCoins(coins);
+        }
     }    
 
     private void Jump()
