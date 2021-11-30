@@ -29,6 +29,8 @@ public class Enemy : KinematicBody2D
     private Vector2 terminalVelocity = new Vector2(0, 1000);
     private Vector2 targetDestination;
     private float speed;
+    private float maxX;
+    private float minX;
 
     public override void _Draw()
     {
@@ -95,12 +97,18 @@ public class Enemy : KinematicBody2D
 
     private void handlePatrol()
     {
+        if(Position.x > maxX || Position.x < minX)
+        {
+            Position = targetDestination;
+            return;
+        }
         if(compareFloatsWithError(Position.x, targetDestination.x, 5))
         {
+            Position = new Vector2(targetDestination.x, Position.y);
             //GD.Print("target destination reached");
             if(timer.IsStopped() && velocity.x != 0)
             {
-                GD.Print("timer started");
+                //GD.Print("timer started");
                 timer.Start();
             }
             if(timer.TimeLeft > 0)
@@ -108,7 +116,7 @@ public class Enemy : KinematicBody2D
                 velocity.x = 0;                
                 return;
             }
-            GD.Print("timer stopped");
+            //GD.Print("timer stopped");
             //GD.Print("changing direction to: ", Math.Abs(Position.x - targetDestination.x));
             goesRight = -1* goesRight;
             velocity.x = speed * goesRight;
@@ -124,7 +132,7 @@ public class Enemy : KinematicBody2D
         {
             handlePatrol();
         }
-        if(delta > 0.064) return;
+        if(delta >= 1) return;
         move(velocity, delta);
     }
 
@@ -135,6 +143,16 @@ public class Enemy : KinematicBody2D
         collission = (CollisionShape2D)GetNode("CollisionShape2D");
         player = (AnimationPlayer)GetNode("AnimationPlayer");
         timer = (Timer)GetNode("Timer");
+        if(goesRight == 1)
+        {
+            maxX = Position.x + patrolLength + 16;
+            minX = Position.x - 16;
+        }
+        else
+        {
+            maxX = Position.x - patrolLength - 16;
+            minX = Position.x + 16;
+        }
         timer.WaitTime = waitTime;
         targetDestination = Position;
         speed = walkSpeed;

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/tiles and background_foreground (new)/tileset.png" type="Texture" id=1]
+
+[node name="BackgroundDirt" type="Node2D"]
+
+[node name="DirtInterior" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 16, 64, 16, 16 )
+
+[node name="GrassInterior" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 16, 16, 16, 16 )
