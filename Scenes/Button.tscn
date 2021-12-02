@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Scripts/Interactables/Button.cs" type="Script" id=1]
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/miscellaneous sprites/buttom_pressed.png" type="Texture" id=2]
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/miscellaneous sprites/buttom.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "press"
+length = 0.03
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ), ExtResource( 2 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "unpress"
+length = 0.03
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ), ExtResource( 3 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8.75, 9.78185 )
+
+[node name="Button" type="Area2D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/press = SubResource( 1 )
+anims/unpress = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.125, -8.84315 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_onPressed"]
+[connection signal="body_exited" from="." to="." method="_onUnpressed"]

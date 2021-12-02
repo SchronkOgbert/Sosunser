@@ -95,12 +95,24 @@ public class Enemy : KinematicBody2D
         //GD.Print(targetDestination, Position, "at speed", velocity.x);
     }
 
+    private void turnAround()
+    {
+        goesRight = -1* goesRight;
+        velocity.x = speed * goesRight;
+        sprite.FlipH = !sprite.FlipH;
+        computeTargetDestination();
+    }
+
     private void handlePatrol()
     {
         if(Position.x > maxX || Position.x < minX)
         {
             Position = targetDestination;
             return;
+        }
+        if(IsOnWall())
+        {
+            turnAround();
         }
         if(compareFloatsWithError(Position.x, targetDestination.x, 5))
         {
@@ -118,11 +130,7 @@ public class Enemy : KinematicBody2D
             }
             //GD.Print("timer stopped");
             //GD.Print("changing direction to: ", Math.Abs(Position.x - targetDestination.x));
-            goesRight = -1* goesRight;
-            velocity.x = speed * goesRight;
-            sprite.FlipH = !sprite.FlipH;
-            computeTargetDestination();
-            timer.Start();
+            turnAround();
         }        
     }
 

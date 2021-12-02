@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Scripts/Interactables/Platform.cs" type="Script" id=1]
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/miscellaneous sprites/wood_slab_middle.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 24.2624, 3.65266 )
+
+[node name="Platform" type="KinematicBody2D"]
+collision_layer = 16
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 3, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -0.353554 )
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="resetCamera"]
