@@ -13,10 +13,13 @@ public class Platform : KinematicBody2D
     public bool changeCamera;
     [Export]
     public string cameraName;
+    [Export]
+    public bool autostart = false;
 
     private Timer timer;
 
     private static int counter;
+    private bool isActivated = false;
 
     private void resetCamera()
     {
@@ -25,7 +28,7 @@ public class Platform : KinematicBody2D
         camera.Current = true;
     }
 
-    private void movePlatform()
+    private void movePlatform(float delta)
     {
         if(movementSpeed == 0)
         {
@@ -34,24 +37,27 @@ public class Platform : KinematicBody2D
         }
         else
         {
-            GD.Print("moving");
+            //GD.Print("moving");
             MoveAndSlide(distance / movementSpeed);
         }
     }
 
     public void activated()
     {
-        GD.Print("platform activated");        
+        //GD.Print("platform activated");        
         if(changeCamera)
         {
             Camera2D camera = (Camera2D)GetNode(cameraName);
             camera.Current = true;
-            timer.WaitTime = ((float)Math.Sqrt((Math.Pow(distance.x, 2) +
-            Math.Pow(distance.y, 2))) + 0.2f) / 60;
             GD.Print(timer.WaitTime);
             timer.Start();
         }
-        movePlatform();
+        movePlatform(1/75);
+    }
+    public void deactivated()
+    {
+        distance = -distance;
+        timer.Start();
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -59,6 +65,11 @@ public class Platform : KinematicBody2D
     {
         GD.Print(distance);
         timer = (Timer)GetNode("Timer");
+        if(autostart)
+        {
+            activated();
+        }        
+        timer.WaitTime = movementSpeed + 0.2f;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,10 +77,26 @@ public class Platform : KinematicBody2D
     {
         if(movementSpeed > 0)
         {
+            if(looping)
+            {
+                if(timer.TimeLeft == 0)
+                {
+                    GD.Print("toggling activation");
+                    if(isActivated)
+                    {
+                        deactivated();
+                    }
+                    else
+                    {
+                        activated();
+                    }
+                    isActivated = !isActivated;
+                }
+            }
             if(timer.TimeLeft < timer.WaitTime - 0.1f && 
             timer.TimeLeft >= 0.1f)
             {
-                movePlatform();
+                movePlatform(delta);
                 counter++;
                 //GD.Print(distance / movementSpeed);
             }

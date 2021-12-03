@@ -28,6 +28,7 @@ public class Player : KinematicBody2D
     private AnimationPlayer player;
     private Timer jumpTimer;
     private GameHUD gameHUD;
+    private Vector2 snap;
 
     public void addCoins(int amount = 1, bool playAnimation = true)
     {
@@ -138,7 +139,7 @@ public class Player : KinematicBody2D
                 player.Play("idle");
             }
         }
-        MoveAndSlide(velocity * delta * 75, Vector2.Up);
+        MoveAndSlideWithSnap(velocity * delta * 75, snap, Vector2.Up);
     }
 
     private void handleMovement(float delta)
@@ -188,6 +189,14 @@ public class Player : KinematicBody2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
+        if(IsOnFloor())
+        {
+            snap = Vector2.Down;
+        }
+        else
+        {
+            snap = Vector2.Zero;
+        }
         handleMovement(delta);
         handleGravity(delta);
         //GD.Print(isJumping);
