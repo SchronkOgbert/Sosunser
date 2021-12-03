@@ -64,6 +64,7 @@ public class Player : KinematicBody2D
         {
             gameHUD.addCoins(coins);
         }
+        jumpTimer = (Timer)GetNode("JumpTimer");
     }    
 
     private void Jump()
@@ -74,6 +75,16 @@ public class Player : KinematicBody2D
             velocity.y = JUMP_FORCE;
             //GD.Print("jumping");
             //player.Play("jump_start");
+            jumpTimer.Start();
+        }
+    }
+
+    private void _on_JumpTimer_timeout()
+    {
+        //GD.Print("long jump start");
+        if(!Input.IsActionPressed("jump"))
+        {
+            velocity.y = JUMP_FORCE / 4;
         }
     }
 
@@ -85,6 +96,13 @@ public class Player : KinematicBody2D
             velocity.y = 0;
             GD.Print("short jump");
         }
+    }
+
+    private float clamp(float value, float min = 0.5f, float max = 1)
+    {
+        if(value < min) return min;
+        if(value > max) return max;
+        return value;
     }
 
     private void checkMovement()
@@ -111,6 +129,14 @@ public class Player : KinematicBody2D
         {
             velocity.x = 0;
             player.Play("idle");
+        }
+        // if(isJumping)
+        // {
+        //     velocity.x = velocity.x * clamp((Math.Abs(velocity.y) / -JUMP_FORCE));
+        // }
+        if(IsOnCeiling())
+        {
+            velocity.y = 0;
         }
     }
 

@@ -211,3 +211,7 @@ position = Vector2( 2.13163, -5.33937 )
 shape = SubResource( 5 )
 
 [node name="JumpTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="JumpTimer" to="." method="_on_JumpTimer_timeout"]
