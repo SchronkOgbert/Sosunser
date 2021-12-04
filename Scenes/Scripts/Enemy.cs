@@ -1,6 +1,13 @@
 using Godot;
 using System;
 
+public enum attackerType
+{
+	Melee,
+	Projectile,
+	Both
+}
+
 public class Enemy : KinematicBody2D 
 {
 	//physics
@@ -19,13 +26,16 @@ public class Enemy : KinematicBody2D
 	public float sprintSpeed = 300;
 	[Export]
 	public float maxHP = 20;
+	[Export]
+	public attackerType Type;
 	private float currentHP;
 
 	//references
 	private Sprite sprite;
 	private CollisionShape2D collission;
-	private AnimationPlayer player;
+	private AnimationPlayer animationPlayer;
 	private Timer timer;
+	private RayCast2D edgeRay;
 
 	//movement
 	private Vector2 velocity;
@@ -38,12 +48,15 @@ public class Enemy : KinematicBody2D
 	//combat
 	[Export]
 	public bool hurt = false;
+	private Player player;
+	private Timer decisionTimer;
+	private bool inCombat = false;
 
 	public override void _Draw()
 	{
 		sprite = (Sprite)GetNode("Sprite");
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
-		player = (AnimationPlayer)GetNode("AnimationPlayer");
+		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		timer = (Timer)GetNode("Timer");
 	}
 
@@ -51,19 +64,41 @@ public class Enemy : KinematicBody2D
 	{
 		if(currentHP <= 0)
 		{
-			player.Stop();
-			player.Play("die");            
+			animationPlayer.Stop();
+			animationPlayer.Play("die");            
 			SetCollisionMaskBit(0, false);
+			SetCollisionLayerBit(2, false);
+		}
+		else
+		{
+			startAttack();
 		}
 	}
 
-	public void takeDamage(int dmg = 1)
+	private void _startAttack()
 	{
+		GD.Print("started attack");
+	}
+
+	public void startAttack()
+	{
+		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 0.5f;
+		decisionTimer.Start();
+		animationPlayer.Play("idle");
+	}
+
+	public void takeDamage(KinematicBody2D body, int dmg = 1)
+	{
+		inCombat = true;
 		timer.WaitTime = timer.TimeLeft + 0.4f;
 		currentHP -= dmg;
+		if(Math.Sign(body.Position.x - Position.x) != Math.Sign(goesRight))
+		{
+			turnAround();
+		}
 		hurt = true;
-		player.Stop();
-		player.Play("get_hurt", -1, 0.5f);
+		animationPlayer.Stop();
+		animationPlayer.Play("get_hurt", -1, 0.5f);
 	}
 	private void death_cleanup()
 	{
@@ -81,11 +116,11 @@ public class Enemy : KinematicBody2D
 			}
 			if(velocity.y < 0)
 			{
-				player.Play("jump_start");
+				animationPlayer.Play("jump_start");
 			}
 			else
 			{
-				player.Play("fall");
+				animationPlayer.Play("fall");
 			}
 			MoveAndSlide(velocity * delta * 75, Vector2.Up);
 			//GD.Print("falling"); 
@@ -101,20 +136,20 @@ public class Enemy : KinematicBody2D
 	{
 		if(!hurt && currentHP > 0)
 		{
-			if(velocity.x != 0)
+			if(velocity.x != 0 || !inCombat)
 			{
-				player.Play("walk", -1, velocity.x / 150);
+				animationPlayer.Play("walk", -1, velocity.x / 150);
 			}
 			else
 			{
-				player.Play("idle");
+				animationPlayer.Play("idle");
 			}
 		}
 	}
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(hurt || currentHP <= 0) return;
+		if(hurt || currentHP <= 0 || inCombat) return;
 		MoveAndSlide(velocity * delta * 75, Vector2.Up);
 	}
 
@@ -133,7 +168,7 @@ public class Enemy : KinematicBody2D
 	{
 		goesRight = -1* goesRight;
 		velocity.x = speed * goesRight;
-		sprite.FlipH = !sprite.FlipH;
+		sprite.Scale = new Vector2(sprite.Scale.x * -1, sprite.Scale.y);
 		computeTargetDestination();
 	}
 
@@ -145,7 +180,7 @@ public class Enemy : KinematicBody2D
 			Position = targetDestination;
 			return;
 		}
-		if(IsOnWall())
+		if(IsOnWall() || !edgeRay.IsColliding())
 		{
 			turnAround();
 		}
@@ -184,8 +219,10 @@ public class Enemy : KinematicBody2D
 	{
 		sprite = (Sprite)GetNode("Sprite");
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
-		player = (AnimationPlayer)GetNode("AnimationPlayer");
+		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		timer = (Timer)GetNode("Timer");
+		edgeRay = (RayCast2D)GetNode("Sprite/RayCast2D");
+		decisionTimer = (Timer)GetNode("decisionTimer");
 		if(goesRight == 1)
 		{
 			maxX = Position.x + patrolLength + 16;
@@ -214,3 +251,5 @@ public class Enemy : KinematicBody2D
 		//GD.Print(targetDestination, Position, "at speed", velocity.x);
 	}
 }
+
+

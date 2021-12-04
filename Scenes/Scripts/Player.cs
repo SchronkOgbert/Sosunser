@@ -70,7 +70,7 @@ public class Player : KinematicBody2D
 	public void _on_Area2D_body_entered(KinematicBody2D body)
 	{
 		GD.Print("enemy detected");
-		body.Call("takeDamage", 10);
+		body.Call("takeDamage", this, 10);
 	}
 
 	public void adjustAttackPosition()

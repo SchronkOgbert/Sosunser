@@ -73,6 +73,7 @@ position = Vector2( 844, 359 )
 position = Vector2( -80.5192, 333.731 )
 offset = Vector2( 0, -256 )
 current = true
+zoom = Vector2( 0.75, 0.75 )
 limit_left = -32
 limit_top = -1024
 limit_right = 2384
@@ -138,7 +139,7 @@ position = Vector2( 656.764, 303.206 )
 
 [node name="Mushroom" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1691.41, 259.438 )
-patrolLength = 256.0
+patrolLength = 1024.0
 
 [node name="Mushroom3" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1809, 497 )
