@@ -51,7 +51,9 @@ public class Enemy : KinematicBody2D
 	{
 		if(currentHP <= 0)
 		{
-			QueueFree();
+			player.Stop();
+			player.Play("die");            
+			SetCollisionMaskBit(0, false);
 		}
 	}
 
@@ -62,6 +64,10 @@ public class Enemy : KinematicBody2D
 		hurt = true;
 		player.Stop();
 		player.Play("get_hurt", -1, 0.5f);
+	}
+	private void death_cleanup()
+	{
+		QueueFree();
 	}
 
 	private void handleGravity(float delta)
@@ -93,7 +99,7 @@ public class Enemy : KinematicBody2D
 
 	private void handleAnimation()
 	{
-		if(!hurt)
+		if(!hurt && currentHP > 0)
 		{
 			if(velocity.x != 0)
 			{
@@ -108,7 +114,7 @@ public class Enemy : KinematicBody2D
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(hurt) return;
+		if(hurt || currentHP <= 0) return;
 		MoveAndSlide(velocity * delta * 75, Vector2.Up);
 	}
 
@@ -133,6 +139,7 @@ public class Enemy : KinematicBody2D
 
 	private void handlePatrol()
 	{
+		if(hurt || currentHP <= 0) return;
 		if(Position.x > maxX || Position.x < minX)
 		{
 			Position = targetDestination;
