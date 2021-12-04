@@ -53,11 +53,24 @@ public class Player : KinematicBody2D
 			gameHUD.addCoins(amount, playAnimation);
 		}
 	}
-	private void stopAttack()
+	private void disableSword()
 	{
-		swordCollision.SetCollisionLayerBit(0, false);
-		swordCollision.SetCollisionMaskBit(2, false);
-		isAttacking = false;
+		// swordCollision.SetCollisionLayerBit(0, false);
+		// swordCollision.SetCollisionMaskBit(2, false);
+		CollisionShape2D swordActualColl = (CollisionShape2D)swordCollision.GetNode("CollisionShape2D");
+		swordActualColl.Disabled = true;
+	}
+
+	private void enableSword()
+	{
+		CollisionShape2D swordActualColl = (CollisionShape2D)swordCollision.GetNode("CollisionShape2D");
+		swordActualColl.Disabled = false;
+	}
+
+	public void _on_Area2D_body_entered(KinematicBody2D body)
+	{
+		GD.Print("enemy detected");
+		body.Call("takeDamage", 10);
 	}
 
 	public void adjustAttackPosition()
@@ -82,13 +95,11 @@ public class Player : KinematicBody2D
 		{
 			case 0:
 			{
-				stopAttack();
+				disableSword();
 				player.Stop();
-				player.Play("attack");
+				player.Play("attack", -1, 2);
 				isAttacking = true;
 				GD.Print(isAttacking);
-				swordCollision.SetCollisionLayerBit(0, true);
-				swordCollision.SetCollisionMaskBit(2, true);
 				attackIndex++;
 				break;
 			}
@@ -100,7 +111,7 @@ public class Player : KinematicBody2D
 			default: 
 			{
 				attackIndex = 0;
-				stopAttack();
+				disableSword();
 				break;
 			}
 		}
@@ -221,12 +232,12 @@ public class Player : KinematicBody2D
 
 	private void checkAttack()
 	{
-		GD.Print(attackIndex);
+		//GD.Print(attackIndex);
 		if(Input.IsActionJustPressed("attack"))
 		{
 			if(attackIndex == 0 || attackIndex == 1 && nextAttack)
 			{
-				GD.Print("attacking");
+				//GD.Print("attacking");
 				startAttack();
 			}
 		}
@@ -311,3 +322,6 @@ public class Player : KinematicBody2D
 		//GD.Print(velocity, "and", fallVelocity);
 	}
 }
+
+
+
