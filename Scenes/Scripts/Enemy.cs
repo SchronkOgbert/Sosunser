@@ -79,7 +79,8 @@ public class Enemy : KinematicBody2D
 
 	public void playerDetected(KinematicBody2D body)
 	{
-		GD.Print("saw player");
+		//if(body != null && body != _world.player) return;
+		GD.Print("saw player: ", body);
 		inCombat = true;
 		searchingPlayer = false;
 		_startAttack();
@@ -110,18 +111,19 @@ public class Enemy : KinematicBody2D
 		}
 		else
 		{
+			animationPlayer.Play("idle");
 			startAttack();
 		}
 	}
 
 	private void _startAttack()
 	{
-		if(searchingPlayer) return;
+		if(searchingPlayer || currentHP <= 0) return;
 		findPlayer(world.player);
 		world.Call("spawnProjectile",
 		projectilePosition.GlobalPosition, 256 * goesRight,
 		2, GetTree().Root.GetNode("Node2D/Player"));
-		GD.Print("started attack");
+		//GD.Print("started attack");
 		startAttack();
 	}
 
@@ -137,12 +139,16 @@ public class Enemy : KinematicBody2D
 	{
 		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 0.5f;
 		decisionTimer.Start();
-		animationPlayer.Play("idle");
+		if(!hurt)
+		{
+			animationPlayer.Play("idle");
+		}
 	}
 
 	public void takeDamage(KinematicBody2D body, int dmg = 1)
 	{
 		inCombat = true;
+		//searchingPlayer = false;
 		timer.WaitTime = timer.TimeLeft + 0.4f;
 		currentHP -= dmg;
 		findPlayer(body);
@@ -275,6 +281,10 @@ public class Enemy : KinematicBody2D
 		decisionTimer = (Timer)GetNode("decisionTimer");
 		projectilePosition = (Position2D)GetNode("Sprite/Position2D");
 		playerLostTimer = (Timer)GetNode("playerLostTimer");
+		if(goesRight != 0)
+		{
+			goesRight = Scale.x;
+		}
 		if(goesRight == 1)
 		{
 			maxX = Position.x + patrolLength + 16;

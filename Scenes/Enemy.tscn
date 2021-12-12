@@ -247,7 +247,7 @@ Type = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -26.4599 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 hframes = 4
 
 [node name="RayCast2D" type="RayCast2D" parent="Sprite"]
@@ -261,7 +261,7 @@ position = Vector2( 24, 0 )
 
 [node name="Area2D" type="Area2D" parent="Sprite"]
 position = Vector2( 32, 0 )
-collision_layer = 4
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
 position = Vector2( 174.143, 2.82011 )
