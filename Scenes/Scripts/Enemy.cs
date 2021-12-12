@@ -137,7 +137,7 @@ public class Enemy : KinematicBody2D
 
 	public void startAttack()
 	{
-		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 0.5f;
+		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 1f;
 		decisionTimer.Start();
 		if(!hurt)
 		{
@@ -190,6 +190,7 @@ public class Enemy : KinematicBody2D
 
 	private void handleAnimation()
 	{
+		GD.Print(!hurt && currentHP > 0 && !inCombat && !searchingPlayer);
 		if(!hurt && currentHP > 0 && !inCombat && !searchingPlayer)
 		{
 			if(velocity.x != 0 || !inCombat)

@@ -72,3 +72,13 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/add_coin = SubResource( 3 )
+
+[node name="Hearts" type="GridContainer" parent="."]
+margin_left = 20.0
+margin_top = 17.5
+margin_right = 60.0
+margin_bottom = 57.5
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

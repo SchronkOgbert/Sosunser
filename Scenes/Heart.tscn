@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Scripts/Heart.cs" type="Script" id=1]
+[ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/hearts_hud.png" type="Texture" id=2]
+
+[node name="Heart" type="Sprite"]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

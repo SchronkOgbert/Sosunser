@@ -20,8 +20,8 @@ public class Player : KinematicBody2D
 
 	//items and abilities
 	private int coins = 0;
-	private float _maxHP = 6;
-	private float _currentHP = 6;
+	private int _maxHP = 3;
+	private int _currentHP = 3;
 	
 	//references
 	private Sprite sprite;
@@ -31,6 +31,9 @@ public class Player : KinematicBody2D
 	private Vector2 snap;
 	private Area2D swordCollision;
 	private Timer attackTimer;
+	private World _world;
+
+	//helpers
 	[Export]
 	public int attackIndex = 0;
 	[Export]
@@ -39,7 +42,7 @@ public class Player : KinematicBody2D
 	public bool nextAttack = false;
 
 	//properties
-	public float maxHP
+	public int maxHP
 	{
 		get 
 		{ 
@@ -48,12 +51,16 @@ public class Player : KinematicBody2D
 		}
 		set
 		{
-			if(value < 0) _maxHP = 0;
+			if(value < 0)
+			{
+				 _maxHP = 0;
+				 return;
+			}
 			_maxHP = value;
 		}
 	}
 
-	public float currentHP
+	public int currentHP
 	{
 		get 
 		{ 
@@ -62,9 +69,29 @@ public class Player : KinematicBody2D
 		}
 		set
 		{
-			if(value < 0) _currentHP = 0;
-			if(value > maxHP) currentHP = maxHP;
+			if(value < 0)
+			{
+				_currentHP = 0;
+				return;
+			} 				
+			if(value > maxHP) 
+			{
+				currentHP = maxHP;
+				return;
+			}
 			_currentHP = value;
+		}
+	}
+
+	public World world
+	{
+		get
+		{
+			if(_world == null)
+			{
+				_world = (World)GetTree().Root.GetNode("Node2D");
+			}
+			return _world;
 		}
 	}
 
@@ -103,10 +130,11 @@ public class Player : KinematicBody2D
 		body.Call("takeDamage", this, 10);
 	}
 
-	public void takeDamage(float dmg)
+	public void takeDamage(int dmg)
 	{
 		GD.Print("player received damage");
 		currentHP = currentHP - dmg;
+		gameHUD.updateHearts(currentHP);
 		if(currentHP == 0)
 		{
 			Die();
@@ -116,6 +144,7 @@ public class Player : KinematicBody2D
 	public void Die()
 	{
 		GD.Print("me ded");
+		GetTree().ChangeScene("res://Scenes/Level1.tscn");
 	}
 
 	public void adjustAttackPosition()
@@ -176,9 +205,16 @@ public class Player : KinematicBody2D
 	{
 		//player.Play("idle");
 		velocity.y = 1;
+		gameHUD = (GameHUD)world.GetNode("GameHUD");
+		GD.Print(gameHUD);
 		if(gameHUD != null)
 		{
-			gameHUD.addCoins(coins);
+			gameHUD.hearts = maxHP;
+			gameHUD.coins = coins;
+		}
+		else
+		{
+			GD.Print("invalid hud");
 		}
 		jumpTimer = (Timer)GetNode("JumpTimer");
 		swordCollision = (Area2D)GetNode("Area2D");
