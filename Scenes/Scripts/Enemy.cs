@@ -36,6 +36,7 @@ public class Enemy : KinematicBody2D
 	private AnimationPlayer animationPlayer;
 	private Timer timer;
 	private RayCast2D edgeRay;
+	private Position2D projectilePosition;
 
 	//movement
 	private Vector2 velocity;
@@ -77,6 +78,10 @@ public class Enemy : KinematicBody2D
 
 	private void _startAttack()
 	{
+		GD.Print(GetTree().Root.GetNode("Node2D"));
+		GetTree().Root.GetNode("Node2D").Call("spawnProjectile",
+		projectilePosition.GlobalPosition, 128 * Scale.x,
+		16, GetTree().Root.GetNode("Node2D").GetNode("Player"));
 		GD.Print("started attack");
 	}
 
@@ -223,6 +228,7 @@ public class Enemy : KinematicBody2D
 		timer = (Timer)GetNode("Timer");
 		edgeRay = (RayCast2D)GetNode("Sprite/RayCast2D");
 		decisionTimer = (Timer)GetNode("decisionTimer");
+		projectilePosition = (Position2D)GetNode("Sprite/Position2D");
 		if(goesRight == 1)
 		{
 			maxX = Position.x + patrolLength + 16;
