@@ -20,8 +20,8 @@ public class Player : KinematicBody2D
 
 	//items and abilities
 	private int coins = 0;
-	private float maxHP = 16;
-	private float currentHP = 16;
+	private float _maxHP = 6;
+	private float _currentHP = 6;
 	
 	//references
 	private Sprite sprite;
@@ -37,6 +37,36 @@ public class Player : KinematicBody2D
 	public bool isAttacking = false;
 	[Export]
 	public bool nextAttack = false;
+
+	//properties
+	public float maxHP
+	{
+		get 
+		{ 
+			if(_maxHP >= 0) return _maxHP;
+			return _maxHP;
+		}
+		set
+		{
+			if(value < 0) _maxHP = 0;
+			_maxHP = value;
+		}
+	}
+
+	public float currentHP
+	{
+		get 
+		{ 
+			if(_currentHP >= 0) return _currentHP;
+			return _maxHP;
+		}
+		set
+		{
+			if(value < 0) _currentHP = 0;
+			if(value > maxHP) currentHP = maxHP;
+			_currentHP = value;
+		}
+	}
 
 	public void addCoins(int amount = 1, bool playAnimation = true)
 	{
@@ -71,6 +101,21 @@ public class Player : KinematicBody2D
 	{
 		GD.Print("enemy detected");
 		body.Call("takeDamage", this, 10);
+	}
+
+	public void takeDamage(float dmg)
+	{
+		GD.Print("player received damage");
+		currentHP = currentHP - dmg;
+		if(currentHP == 0)
+		{
+			Die();
+		}
+	}
+
+	public void Die()
+	{
+		GD.Print("me ded");
 	}
 
 	public void adjustAttackPosition()

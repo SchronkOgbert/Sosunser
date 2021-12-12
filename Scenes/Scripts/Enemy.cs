@@ -37,6 +37,8 @@ public class Enemy : KinematicBody2D
 	private Timer timer;
 	private RayCast2D edgeRay;
 	private Position2D projectilePosition;
+	private World _world;
+	private Timer playerLostTimer;
 
 	//movement
 	private Vector2 velocity;
@@ -52,6 +54,20 @@ public class Enemy : KinematicBody2D
 	private Player player;
 	private Timer decisionTimer;
 	private bool inCombat = false;
+	private bool searchingPlayer = false;
+
+	//properties
+	public World world
+	{
+		get
+		{
+			if(_world == null)
+			{
+				_world = (World)GetTree().Root.GetNode("Node2D");
+			}
+			return _world;
+		}
+	}
 
 	public override void _Draw()
 	{
@@ -59,6 +75,28 @@ public class Enemy : KinematicBody2D
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
 		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
 		timer = (Timer)GetNode("Timer");
+	}
+
+	public void playerDetected(KinematicBody2D body)
+	{
+		GD.Print("saw player");
+		inCombat = true;
+		searchingPlayer = false;
+		_startAttack();
+	}
+
+	public void playerOutOfSight(KinematicBody2D body)
+	{
+		GD.Print("player disappeared");
+		searchingPlayer = true;
+		inCombat = false;
+		playerLostTimer.Start();
+	}
+
+	public void playerLost()
+	{
+		GD.Print("player lost");
+		searchingPlayer = false;
 	}
 
 	private void die()
@@ -78,11 +116,21 @@ public class Enemy : KinematicBody2D
 
 	private void _startAttack()
 	{
-		GD.Print(GetTree().Root.GetNode("Node2D"));
-		GetTree().Root.GetNode("Node2D").Call("spawnProjectile",
-		projectilePosition.GlobalPosition, 128 * Scale.x,
-		16, GetTree().Root.GetNode("Node2D").GetNode("Player"));
+		if(searchingPlayer) return;
+		findPlayer(world.player);
+		world.Call("spawnProjectile",
+		projectilePosition.GlobalPosition, 256 * goesRight,
+		2, GetTree().Root.GetNode("Node2D/Player"));
 		GD.Print("started attack");
+		startAttack();
+	}
+
+	private void findPlayer(KinematicBody2D body)
+	{
+		if(Math.Sign(body.Position.x - Position.x) != Math.Sign(goesRight))
+		{
+			turnAround();
+		}
 	}
 
 	public void startAttack()
@@ -97,10 +145,7 @@ public class Enemy : KinematicBody2D
 		inCombat = true;
 		timer.WaitTime = timer.TimeLeft + 0.4f;
 		currentHP -= dmg;
-		if(Math.Sign(body.Position.x - Position.x) != Math.Sign(goesRight))
-		{
-			turnAround();
-		}
+		findPlayer(body);
 		hurt = true;
 		animationPlayer.Stop();
 		animationPlayer.Play("get_hurt", -1, 0.5f);
@@ -139,7 +184,7 @@ public class Enemy : KinematicBody2D
 
 	private void handleAnimation()
 	{
-		if(!hurt && currentHP > 0)
+		if(!hurt && currentHP > 0 && !inCombat && !searchingPlayer)
 		{
 			if(velocity.x != 0 || !inCombat)
 			{
@@ -154,7 +199,7 @@ public class Enemy : KinematicBody2D
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(hurt || currentHP <= 0 || inCombat) return;
+		if(hurt || currentHP <= 0 || inCombat || searchingPlayer) return;
 		MoveAndSlide(velocity * delta * 75, Vector2.Up);
 	}
 
@@ -229,6 +274,7 @@ public class Enemy : KinematicBody2D
 		edgeRay = (RayCast2D)GetNode("Sprite/RayCast2D");
 		decisionTimer = (Timer)GetNode("decisionTimer");
 		projectilePosition = (Position2D)GetNode("Sprite/Position2D");
+		playerLostTimer = (Timer)GetNode("playerLostTimer");
 		if(goesRight == 1)
 		{
 			maxX = Position.x + patrolLength + 16;

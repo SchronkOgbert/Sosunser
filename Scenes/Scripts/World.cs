@@ -26,15 +26,16 @@ public class World : Node2D
 
 	public void spawnProjectile(Vector2 position, float distance, float speed, KinematicBody2D target)
 	{
-		GD.Print("spawning projectile");
+		//GD.Print("spawning projectile with target ", target);
 		try
 		{
 			PackedScene buffer = (PackedScene)ResourceLoader.Load("res://Scenes/Fireball.tscn");
 			Projectile projectile = (Projectile)buffer.Instance();
-			GD.Print(projectile);
+			//GD.Print(projectile);
 			projectile.Position = position;
 			projectile.distance = distance;
 			projectile.speed = speed;
+			projectile.target = target;
 			AddChild(projectile);
 		}
 		catch(Exception e)

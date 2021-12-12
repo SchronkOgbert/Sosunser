@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/Scripts/Enemy.cs" type="Script" id=1]
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Run.png" type="Texture" id=2]
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Idle.png" type="Texture" id=3]
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Take Hit.png" type="Texture" id=4]
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Death.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 178.333, 20.0153 )
 
 [sub_resource type="CapsuleShape2D" id=1]
 
@@ -244,7 +247,7 @@ Type = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -26.4599 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 hframes = 4
 
 [node name="RayCast2D" type="RayCast2D" parent="Sprite"]
@@ -255,6 +258,14 @@ collision_mask = 20
 
 [node name="Position2D" type="Position2D" parent="Sprite"]
 position = Vector2( 24, 0 )
+
+[node name="Area2D" type="Area2D" parent="Sprite"]
+position = Vector2( 32, 0 )
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
+position = Vector2( 174.143, 2.82011 )
+shape = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.297302, -19.6219 )
@@ -274,4 +285,11 @@ one_shot = true
 [node name="decisionTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="playerLostTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="body_entered" from="Sprite/Area2D" to="." method="playerDetected"]
+[connection signal="body_exited" from="Sprite/Area2D" to="." method="playerOutOfSight"]
 [connection signal="timeout" from="decisionTimer" to="." method="_startAttack"]
+[connection signal="timeout" from="playerLostTimer" to="." method="playerLost"]
