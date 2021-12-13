@@ -80,7 +80,7 @@ public class Enemy : KinematicBody2D
 	public void playerDetected(KinematicBody2D body)
 	{
 		//if(body != null && body != _world.player) return;
-		GD.Print("saw player: ", body);
+		//GD.Print("saw player: ", body);
 		inCombat = true;
 		searchingPlayer = false;
 		_startAttack();
@@ -88,7 +88,7 @@ public class Enemy : KinematicBody2D
 
 	public void playerOutOfSight(KinematicBody2D body)
 	{
-		GD.Print("player disappeared");
+		//GD.Print("player disappeared");
 		searchingPlayer = true;
 		inCombat = false;
 		playerLostTimer.Start();
@@ -96,7 +96,7 @@ public class Enemy : KinematicBody2D
 
 	public void playerLost()
 	{
-		GD.Print("player lost");
+		//GD.Print("player lost");
 		searchingPlayer = false;
 	}
 
@@ -190,15 +190,17 @@ public class Enemy : KinematicBody2D
 
 	private void handleAnimation()
 	{
-		GD.Print(!hurt && currentHP > 0 && !inCombat && !searchingPlayer);
+		//GD.Print(!hurt && currentHP > 0 && !inCombat && !searchingPlayer);
 		if(!hurt && currentHP > 0 && !inCombat && !searchingPlayer)
 		{
-			if(velocity.x != 0 || !inCombat)
+			if(velocity.x != 0)
 			{
 				animationPlayer.Play("walk", -1, velocity.x / 150);
+				GD.Print("playing walk");
 			}
 			else
 			{
+				GD.Print("playing idle");
 				animationPlayer.Play("idle");
 			}
 		}
