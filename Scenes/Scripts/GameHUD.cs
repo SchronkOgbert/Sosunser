@@ -9,12 +9,14 @@ public class GameHUD : CanvasLayer
     //logic
     private int _coins;
     private int _hearts;
+    private int _score;
     List<Heart> heartsList = new List<Heart>();
 
     //references
     private Label coinsText;
     private AnimationPlayer player;
     private Control heartsContainer;
+    private Label scorePointsLabel;
 
     public int coins
     {
@@ -44,6 +46,11 @@ public class GameHUD : CanvasLayer
             _hearts = value;
         }
     }
+    public int score
+    {
+        get { return _score; }
+        set { _score = value; }
+    }
 
     private void setCoinsText()
     {
@@ -60,6 +67,17 @@ public class GameHUD : CanvasLayer
     {
         player.Stop();
         player.Play("add_coin");
+    }
+
+    private void setScoreWidget()
+    {
+        scorePointsLabel.Text = score.ToString();
+    }
+
+    public void addScore(int amount)
+    {
+        score += amount;
+        setScoreWidget();
     }
 
     private void makeHearts(int count)
@@ -115,6 +133,7 @@ public class GameHUD : CanvasLayer
         GD.Print(coinsText);
         player = (AnimationPlayer)GetNode("AnimationPlayer");
         heartsContainer = (Control)GetNode("Hearts");
+        scorePointsLabel = (Label)GetNode("Score/Points");
         addCoins(coins);
         makeHearts(hearts);
         updateHearts(hearts);

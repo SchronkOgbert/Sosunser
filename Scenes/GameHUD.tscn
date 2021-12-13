@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/PressStart2P-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/coins_hud.png" type="Texture" id=2]
@@ -29,6 +29,12 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1, 1 ) ]
 }
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 1 )
 
 [node name="GameHUD" type="CanvasLayer"]
 script = ExtResource( 3 )
@@ -79,6 +85,36 @@ margin_top = 17.5
 margin_right = 60.0
 margin_bottom = 57.5
 columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Panel" parent="."]
+self_modulate = Color( 0, 0, 0, 0 )
+margin_left = 842.0
+margin_top = 21.0
+margin_right = 980.0
+margin_bottom = 50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Score"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 4 )
+text = "Score: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Points" type="Label" parent="Score"]
+margin_left = 95.754
+margin_top = -0.629959
+margin_right = 135.754
+margin_bottom = 15.37
+custom_fonts/font = SubResource( 5 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }

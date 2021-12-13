@@ -158,6 +158,7 @@ public class Enemy : KinematicBody2D
 	}
 	private void death_cleanup()
 	{
+		world.player.getPoints(20);
 		QueueFree();
 	}
 

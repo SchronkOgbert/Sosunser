@@ -15,7 +15,8 @@ public class Coin : Area2D
         if(!collected)
         {
             collected = true;
-            body.Call("addCoins", 1, true);
+            body.CallDeferred("addCoins", 1, true);
+            body.CallDeferred("getPoints", 5);
             ((AnimationPlayer)GetNode("AnimationPlayer")).Play("fade");
         }
     }
