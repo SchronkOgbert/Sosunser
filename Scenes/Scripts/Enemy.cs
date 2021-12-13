@@ -74,7 +74,7 @@ public class Enemy : KinematicBody2D
 		sprite = (Sprite)GetNode("Sprite");
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
 		animationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
-		timer = (Timer)GetNode("Timer");
+		//timer = (Timer)GetNode("Timer");
 	}
 
 	public void playerDetected(KinematicBody2D body)
@@ -120,7 +120,7 @@ public class Enemy : KinematicBody2D
 	{
 		if(searchingPlayer || currentHP <= 0) return;
 		findPlayer(world.player);
-		world.Call("spawnProjectile",
+		world.CallDeferred("spawnProjectile",
 		projectilePosition.GlobalPosition, 256 * goesRight,
 		2, GetTree().Root.GetNode("Node2D/Player"));
 		//GD.Print("started attack");
