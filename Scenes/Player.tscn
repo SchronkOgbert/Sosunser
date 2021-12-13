@@ -9,7 +9,7 @@
 [ext_resource path="res://Textures/Knight/noBKG_KnightJumpFrame1_strip.png" type="Texture" id=7]
 [ext_resource path="res://Textures/Knight/noBKG_KnightAttack_strip.png" type="Texture" id=8]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:position")
@@ -72,7 +72,7 @@ tracks/4/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=2]
 resource_name = "attack"
 length = 0.6
 step = 0.05
@@ -181,8 +181,7 @@ tracks/7/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "fall"
+[sub_resource type="Animation" id=3]
 length = 0.01
 loop = true
 tracks/0/type = "value"
@@ -246,7 +245,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
 length = 0.8
 loop = true
 step = 0.05
@@ -311,8 +310,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "jump_start"
+[sub_resource type="Animation" id=5]
 length = 10.0
 step = 0.01
 tracks/0/type = "value"
@@ -390,7 +388,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 length = 1.3
 loop = true
 step = 0.01
@@ -455,7 +453,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=7]
 resource_name = "strongAttack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -494,11 +492,11 @@ tracks/2/keys = {
 "values": [ Vector2( 16, 0 ) ]
 }
 
-[sub_resource type="CapsuleShape2D" id=5]
+[sub_resource type="CapsuleShape2D" id=8]
 radius = 23.6013
 height = 12.5163
 
-[sub_resource type="CapsuleShape2D" id=8]
+[sub_resource type="CapsuleShape2D" id=9]
 radius = 16.0
 height = 26.0
 
@@ -512,23 +510,21 @@ isAttacking = true
 light_mask = 2
 position = Vector2( 16, 0 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 8 )
-hframes = 22
-frame = 2
+texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 method_call_mode = 1
-anims/RESET = SubResource( 6 )
-anims/attack = SubResource( 7 )
-anims/fall = SubResource( 1 )
-anims/idle = SubResource( 2 )
-anims/jump_start = SubResource( 3 )
-anims/run = SubResource( 4 )
-anims/strongAttack = SubResource( 9 )
+anims/RESET = SubResource( 1 )
+anims/attack = SubResource( 2 )
+anims/fall = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/jump_start = SubResource( 5 )
+anims/run = SubResource( 6 )
+anims/strongAttack = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 2.13163, -5.33937 )
-shape = SubResource( 5 )
+shape = SubResource( 8 )
 
 [node name="JumpTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -541,7 +537,7 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 61, -9 )
 rotation = 1.5708
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 disabled = true
 
 [node name="AttackTimer" type="Timer" parent="."]

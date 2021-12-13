@@ -144,7 +144,14 @@ public class Player : KinematicBody2D
 	public void Die()
 	{
 		GD.Print("me ded");
-		GetTree().ChangeScene("res://Scenes/Level1.tscn");
+		try
+		{
+			GetTree().ChangeScene("res://Scenes/Level1.tscn");
+		}
+		catch(Exception e)
+		{
+			GD.Print(e);
+		}
 	}
 
 	public void adjustAttackPosition()
@@ -216,6 +223,8 @@ public class Player : KinematicBody2D
 		{
 			GD.Print("invalid hud");
 		}
+		// Camera2D camera = (Camera2D)GetNode("Camera2D");
+		// GD.Print(camera.LimitTop);
 		jumpTimer = (Timer)GetNode("JumpTimer");
 		swordCollision = (Area2D)GetNode("Area2D");
 		isAttacking = false;

@@ -176,7 +176,7 @@ public class Enemy : KinematicBody2D
 			}
 			else
 			{
-				animationPlayer.Play("fall");
+				//animationPlayer.Play("fall");
 			}
 			MoveAndSlide(velocity * delta * 75, Vector2.Up);
 			//GD.Print("falling"); 
@@ -196,11 +196,11 @@ public class Enemy : KinematicBody2D
 			if(velocity.x != 0)
 			{
 				animationPlayer.Play("walk", -1, velocity.x / 150);
-				GD.Print("playing walk");
+				//GD.Print("playing walk");
 			}
 			else
 			{
-				GD.Print("playing idle");
+				//GD.Print("playing idle");
 				animationPlayer.Play("idle");
 			}
 		}
