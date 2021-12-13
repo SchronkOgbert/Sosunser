@@ -27,7 +27,7 @@ public class Player : KinematicBody2D
 	private Sprite sprite;
 	private AnimationPlayer player;
 	private Timer jumpTimer;
-	private GameHUD gameHUD;
+	public GameHUD gameHUD;
 	private Vector2 snap;
 	private Area2D swordCollision;
 	private Timer attackTimer;
