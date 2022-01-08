@@ -52,6 +52,16 @@ public class GameHUD : CanvasLayer
         set { _score = value; }
     }
 
+    public Godot.Collections.Dictionary<string, object> Save()
+    {
+        return new Godot.Collections.Dictionary<string, object>()
+        {
+            { "Filename", Filename },
+            { "Parent", GetParent().GetPath() },
+            { "coins", coins }
+        };
+    }
+
     private void setCoinsText()
     {
         try

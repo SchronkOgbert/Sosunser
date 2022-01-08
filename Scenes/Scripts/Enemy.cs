@@ -76,8 +76,19 @@ public class Enemy : KinematicBody2D
 	public attackerType Type { get => type; set => type = value; }
 	[Export]
     public bool Hurt { get => hurt; set => hurt = value; }
+    public float CurrentHP { get => currentHP; set => currentHP = value; }
 
-    public override void _Draw()
+    public Godot.Collections.Dictionary<string, object> Save()
+	{
+		return new Godot.Collections.Dictionary<string, object>()
+		{
+			{ "Filename", Filename },
+			{ "Parent", GetParent().GetPath() },
+			{ "MaxHP", MaxHP }
+		};
+	}
+
+	public override void _Draw()
 	{
 		sprite = (Sprite)GetNode("Sprite");
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
@@ -110,7 +121,7 @@ public class Enemy : KinematicBody2D
 
 	private void die()
 	{
-		if(currentHP <= 0)
+		if(CurrentHP <= 0)
 		{
 			animationPlayer.Stop();
 			animationPlayer.Play("die");            
@@ -126,7 +137,7 @@ public class Enemy : KinematicBody2D
 
 	private void _startAttack()
 	{
-		if(searchingPlayer || currentHP <= 0) return;
+		if(searchingPlayer || CurrentHP <= 0) return;
 		findPlayer(World.player);
 		World.CallDeferred("spawnProjectile",
 		projectilePosition.GlobalPosition, 256 * GoesRight,
@@ -158,7 +169,7 @@ public class Enemy : KinematicBody2D
 		inCombat = true;
 		//searchingPlayer = false;
 		timer.WaitTime = timer.TimeLeft + 0.4f;
-		currentHP -= dmg;
+		CurrentHP -= dmg;
 		findPlayer(body);
 		Hurt = true;
 		animationPlayer.Stop();
@@ -200,7 +211,7 @@ public class Enemy : KinematicBody2D
 	private void handleAnimation()
 	{
 		//GD.Print(!hurt && currentHP > 0 && !inCombat && !searchingPlayer);
-		if(!Hurt && currentHP > 0 && !inCombat && !searchingPlayer)
+		if(!Hurt && CurrentHP > 0 && !inCombat && !searchingPlayer)
 		{
 			if(velocity.x != 0)
 			{
@@ -217,7 +228,7 @@ public class Enemy : KinematicBody2D
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(Hurt || currentHP <= 0 || inCombat || searchingPlayer) return;
+		if(Hurt || CurrentHP <= 0 || inCombat || searchingPlayer) return;
 		MoveAndSlide(velocity * delta * 75, Vector2.Up);
 	}
 
@@ -242,7 +253,7 @@ public class Enemy : KinematicBody2D
 
 	private void handlePatrol()
 	{
-		if(Hurt || currentHP <= 0) return;
+		if(Hurt || CurrentHP <= 0) return;
 		if(Position.x > maxX || Position.x < minX)
 		{
 			Position = targetDestination;
@@ -307,7 +318,7 @@ public class Enemy : KinematicBody2D
 			maxX = Position.x - PatrolLength - 16;
 			minX = Position.x + 16;
 		}
-		currentHP = MaxHP;
+		CurrentHP = MaxHP;
 		timer.WaitTime = WaitTime;
 		targetDestination = Position;
 		speed = WalkSpeed;

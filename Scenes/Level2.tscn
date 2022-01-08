@@ -14,7 +14,9 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 1638400, 11, 0, 1638401, 11, 0, 1638402, 11, 0, 1638403, 11, 0, 1638404, 11, 0, 1638405, 11, 0, 1638406, 11, 0, 1638407, 11, 0, 1638408, 11, 0, 1638409, 11, 0, 1638410, 11, 0, 1638411, 11, 0, 1638412, 11, 0, 1638413, 11, 0, 1638414, 11, 0, 1638415, 11, 0, 1638416, 11, 0, 1638417, 11, 0, 1638418, 11, 0, 1638419, 11, 0, 1638420, 11, 0, 1638421, 11, 0, 1638422, 11, 0, 1638423, 11, 0, 1638424, 11, 0, 1638425, 11, 0, 1638426, 11, 0, 1638427, 11, 0, 1638428, 11, 0, 1638429, 11, 0, 1638430, 11, 0, 1638431, 11, 0, 1638432, 11, 0, 1638433, 11, 0, 1638434, 11, 0, 1638435, 11, 0, 1638436, 11, 0, 1638437, 11, 0, 1638438, 11, 0, 1638439, 11, 0, 1638440, 11, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
+[node name="Player" parent="." groups=[
+"Persist",
+] instance=ExtResource( 2 )]
 position = Vector2( 21.4057, 361.492 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -28,4 +30,6 @@ drag_margin_top = 0.05
 drag_margin_right = 0.1
 drag_margin_bottom = 0.05
 
-[node name="GameHUD" parent="." instance=ExtResource( 4 )]
+[node name="GameHUD" parent="." groups=[
+"Persist",
+] instance=ExtResource( 4 )]

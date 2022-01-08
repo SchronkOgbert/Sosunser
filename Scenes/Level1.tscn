@@ -78,9 +78,10 @@ tile_data = PoolIntArray( -3080044, 17, 0, -3014508, 17, 0, -2948972, 17, 0, -28
 position = Vector2( 1416.14, 79.4597 )
 scale = Vector2( 3, 3 )
 
-[node name="Player" parent="." instance=ExtResource( 6 )]
+[node name="Player" parent="." groups=[
+"Persist",
+] instance=ExtResource( 6 )]
 position = Vector2( 112.255, 357.694 )
-isAttacking = false
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( -80.5192, 333.731 )
@@ -114,7 +115,9 @@ position = Vector2( 215.071, 354.92 )
 [node name="coinLine8" parent="." instance=ExtResource( 5 )]
 position = Vector2( 373.642, -175.537 )
 
-[node name="GameHUD" parent="." instance=ExtResource( 8 )]
+[node name="GameHUD" parent="." groups=[
+"Persist",
+] instance=ExtResource( 8 )]
 
 [node name="coinLine2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 542.091, 194.158 )
