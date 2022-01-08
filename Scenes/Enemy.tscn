@@ -6,12 +6,12 @@
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Take Hit.png" type="Texture" id=4]
 [ext_resource path="res://Monsters/Monsters_Creatures_Fantasy/Monsters_Creatures_Fantasy/Mushroom/Death.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 178.333, 20.0153 )
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=2]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -38,8 +38,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "die"
+[sub_resource type="Animation" id=4]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -92,8 +91,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "get_hurt"
+[sub_resource type="Animation" id=5]
 length = 0.2
 step = 0.05
 tracks/0/type = "value"
@@ -159,7 +157,7 @@ tracks/4/keys = {
 "values": [ 4 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.7
 loop = true
 tracks/0/type = "value"
@@ -199,7 +197,7 @@ tracks/2/keys = {
 "values": [ 4 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -265,19 +263,19 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
 position = Vector2( 174.143, 2.82011 )
-shape = SubResource( 7 )
+shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.297302, -19.6219 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
-anims/RESET = SubResource( 2 )
-anims/die = SubResource( 3 )
-anims/get_hurt = SubResource( 4 )
-anims/idle = SubResource( 5 )
-anims/walk = SubResource( 6 )
+anims/RESET = SubResource( 3 )
+anims/die = SubResource( 4 )
+anims/get_hurt = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/walk = SubResource( 7 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

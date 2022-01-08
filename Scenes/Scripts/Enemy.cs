@@ -102,7 +102,7 @@ public class Enemy : KinematicBody2D
 		//GD.Print("saw player: ", body);
 		inCombat = true;
 		searchingPlayer = false;
-		_startAttack();
+		startAttack(0.1f);
 	}
 
 	public void playerOutOfSight(KinematicBody2D body)
@@ -131,12 +131,13 @@ public class Enemy : KinematicBody2D
 		else
 		{
 			animationPlayer.Play("idle");
-			startAttack();
+			startAttack(0.7f);
 		}
 	}
 
 	private void _startAttack()
 	{
+		GD.Print("timeout");
 		if(searchingPlayer || CurrentHP <= 0) return;
 		findPlayer(World.player);
 		World.CallDeferred("spawnProjectile",
@@ -154,9 +155,18 @@ public class Enemy : KinematicBody2D
 		}
 	}
 
-	public void startAttack()
+	public void startAttack(float delay = 0) //leave 0 for random
 	{
-		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 1f;
+		//decisionTimer.Stop();
+		if(delay == 0)
+        {
+			decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 0.2f;
+        }
+		else
+        {
+			decisionTimer.WaitTime = delay;
+        }
+		GD.Print("will hit in: ", decisionTimer.WaitTime);
 		decisionTimer.Start();
 		if(!Hurt)
 		{
@@ -168,7 +178,7 @@ public class Enemy : KinematicBody2D
 	{
 		inCombat = true;
 		//searchingPlayer = false;
-		timer.WaitTime = timer.TimeLeft + 0.4f;
+		timer.WaitTime = timer.TimeLeft + 2f;
 		CurrentHP -= dmg;
 		findPlayer(body);
 		Hurt = true;

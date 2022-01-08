@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Tilesets/DefaultTiles.tres" type="TileSet" id=1]
 [ext_resource path="res://Textures/FPSET1_v1.0/_PNG/SET1_bakcground_day1.png" type="Texture" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://Scenes/SecretCamera.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/LevelEnd.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/PressStart2P-Regular.ttf" type="DynamicFontData" id=20]
+[ext_resource path="res://Scenes/PauseMenu.tscn" type="PackedScene" id=21]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 20 )
@@ -328,10 +329,10 @@ __meta__ = {
 }
 
 [node name="Label10" type="Label" parent="."]
-margin_left = 659.767
-margin_top = -236.672
-margin_right = 880.767
-margin_bottom = -144.672
+margin_left = 622.0
+margin_top = -237.0
+margin_right = 881.0
+margin_bottom = -145.0
 custom_fonts/font = SubResource( 1 )
 text = "Congratulations! Now you can play the game!"
 autowrap = true
@@ -350,6 +351,8 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PauseMenu" parent="." instance=ExtResource( 21 )]
 
 [connection signal="body_entered" from="FallZone" to="Player" method="_on_FallZone_body_entered"]
 [connection signal="_on_Pressed_Signal" from="Button" to="Platform" method="activated"]

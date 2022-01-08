@@ -97,13 +97,17 @@ public class World : Node2D
 		while (saveGame.GetPosition() < saveGame.GetLen())
 		{
 			// Get the saved dictionary from the next line in the save file
-			var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
+			var nodeData = 
+				new Godot.Collections.Dictionary<string, object>(
+					(Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
 
 			// Firstly, we need to create the object and add it to the tree and set its position.
-			var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
+			var newObjectScene = (PackedScene)ResourceLoader.Load(
+				nodeData["Filename"].ToString());
 			var newObject = (Node)newObjectScene.Instance();
 			GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-			newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
+			newObject.Set("Position", new Vector2(
+				(float)nodeData["PosX"], (float)nodeData["PosY"]));
 
 			// Now we set the remaining variables.
 			foreach (KeyValuePair<string, object> entry in nodeData)
@@ -123,7 +127,7 @@ public class World : Node2D
 	{
         try
         {
-			LoadGame();
+			//LoadGame();
         }
 		catch (Exception ex)
         {
