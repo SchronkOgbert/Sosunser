@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/PressStart2P-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/Scripts/Menus/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Scenes/OptionsMenu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/LevelSelect.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -84,6 +85,17 @@ margin_left = 142.0
 margin_top = 122.0
 margin_right = 805.0
 margin_bottom = 507.0
+
+[node name="LevelSelect" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_left = 227.688
+margin_top = 137.179
+margin_right = 227.688
+margin_bottom = 137.179
+
+[node name="ChangeStatetimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [connection signal="pressed" from="Buttons/Button" to="." method="play"]
 [connection signal="pressed" from="Buttons/Button2" to="." method="showOptions"]

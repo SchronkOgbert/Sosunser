@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Scripts/Menus/LevelSelect.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/LevelButton.tscn" type="PackedScene" id=2]
+
+[node name="Levelselect" type="Control"]
+anchor_right = 0.5
+anchor_bottom = 0.5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="LevelButton" parent="ItemList" instance=ExtResource( 2 )]
+labelText = "Level 1"
+levelPath = "res://Scenes/Level1.tscn"
+
+[node name="LevelButton2" parent="ItemList" instance=ExtResource( 2 )]
+margin_top = 58.2712
+margin_bottom = 58.2712
+labelText = "Level 2"
+
+[node name="LevelButton3" parent="ItemList" instance=ExtResource( 2 )]
+margin_top = 116.727
+margin_bottom = 116.727
+labelText = "Level 3"
