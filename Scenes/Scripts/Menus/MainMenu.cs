@@ -97,29 +97,37 @@ public class MainMenu : Control
 
     private void handleOptions()
     {
-        if(menuState != state.MAIN) return;
+        if(menuState == state.SELECT) return;
         if(Input.IsActionJustPressed("ui_accept"))
         {
             mainButtons[optionNumber].EmitSignal("pressed");
+            if(optionNumber == 1)
+            {
+                requestChangeState(state.OPTIONS);
+            }
         }
         if(Input.IsActionJustPressed("ui_cancel"))
         {
-            if(inMenu)
+            if(menuState == state.OPTIONS)
             {
                 optionsMenu.Visible = false;
                 buttonsWidget.Visible = true;
                 inMenu = false;
+                requestChangeState(state.MAIN);
             }
         }
-        if(Input.IsActionJustPressed("ui_down"))
+        if(menuState != state.OPTIONS)
         {
-            GD.Print("changed option down");
-            optionNumber++;
-        }
-        if(Input.IsActionJustPressed("ui_up"))
-        {
-            GD.Print("changed option up");
-            optionNumber--;
+            if(Input.IsActionJustPressed("ui_down"))
+            {
+                GD.Print("changed option down");
+                optionNumber++;
+            }
+            if(Input.IsActionJustPressed("ui_up"))
+            {
+                GD.Print("changed option up");
+                optionNumber--;
+            }
         }
         highlightButtons(optionNumber);
     }
