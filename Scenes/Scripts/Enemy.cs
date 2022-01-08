@@ -13,22 +13,15 @@ public class Enemy : KinematicBody2D
 	//physics
 	private const float GRAVITY = 20f;
 
-	//configurables
-	[Export]
-	public float patrolLength = 64;
-	[Export]
-	public float goesRight = 1;
-	[Export]
-	public float waitTime = 1;
-	[Export]
-	public float walkSpeed = 100;
-	[Export]
-	public float sprintSpeed = 300;
-	[Export]
-	public float maxHP = 20;
-	[Export]
-	public attackerType Type;
-	private float currentHP;
+    //configurables
+    private float patrolLength = 64;
+    private float goesRight = 1;
+    private float waitTime = 1;
+    private float walkSpeed = 100;
+    private float sprintSpeed = 300;
+    private float maxHP = 20;    
+    private attackerType type;
+    private float currentHP;
 
 	//references
 	private Sprite sprite;
@@ -37,7 +30,7 @@ public class Enemy : KinematicBody2D
 	private Timer timer;
 	private RayCast2D edgeRay;
 	private Position2D projectilePosition;
-	private World _world;
+	private World world;
 	private Timer playerLostTimer;
 
 	//movement
@@ -48,28 +41,43 @@ public class Enemy : KinematicBody2D
 	private float maxX;
 	private float minX;
 
-	//combat
-	[Export]
-	public bool hurt = false;
-	private Player player;
+    //combat
+    private bool hurt = false;
+    private Player player;
 	private Timer decisionTimer;
 	private bool inCombat = false;
 	private bool searchingPlayer = false;
 
 	//properties
-	public World world
+	public World World
 	{
 		get
 		{
-			if(_world == null)
+			if(world == null)
 			{
-				_world = (World)GetTree().Root.GetNode("Node2D");
+				world = (World)GetTree().Root.GetNode("Node2D");
 			}
-			return _world;
+			return world;
 		}
 	}
+	[Export]
+	public float PatrolLength { get => patrolLength; set => patrolLength = value; }
+	[Export]
+	public float GoesRight { get => goesRight; set => goesRight = value; }
+	[Export]
+	public float WaitTime { get => waitTime; set => waitTime = value; }
+	[Export]
+	public float WalkSpeed { get => walkSpeed; set => walkSpeed = value; }
+	[Export]
+	public float SprintSpeed { get => sprintSpeed; set => sprintSpeed = value; }
+	[Export]
+	public float MaxHP { get => maxHP; set => maxHP = value; }
+	[Export]
+	public attackerType Type { get => type; set => type = value; }
+	[Export]
+    public bool Hurt { get => hurt; set => hurt = value; }
 
-	public override void _Draw()
+    public override void _Draw()
 	{
 		sprite = (Sprite)GetNode("Sprite");
 		collission = (CollisionShape2D)GetNode("CollisionShape2D");
@@ -119,9 +127,9 @@ public class Enemy : KinematicBody2D
 	private void _startAttack()
 	{
 		if(searchingPlayer || currentHP <= 0) return;
-		findPlayer(world.player);
-		world.CallDeferred("spawnProjectile",
-		projectilePosition.GlobalPosition, 256 * goesRight,
+		findPlayer(World.player);
+		World.CallDeferred("spawnProjectile",
+		projectilePosition.GlobalPosition, 256 * GoesRight,
 		2, GetTree().Root.GetNode("Node2D/Player"));
 		//GD.Print("started attack");
 		startAttack();
@@ -129,7 +137,7 @@ public class Enemy : KinematicBody2D
 
 	private void findPlayer(KinematicBody2D body)
 	{
-		if(Math.Sign(body.Position.x - Position.x) != Math.Sign(goesRight))
+		if(Math.Sign(body.Position.x - Position.x) != Math.Sign(GoesRight))
 		{
 			turnAround();
 		}
@@ -139,7 +147,7 @@ public class Enemy : KinematicBody2D
 	{
 		decisionTimer.WaitTime = new RandomNumberGenerator().Randf() + 1f;
 		decisionTimer.Start();
-		if(!hurt)
+		if(!Hurt)
 		{
 			animationPlayer.Play("idle");
 		}
@@ -152,13 +160,13 @@ public class Enemy : KinematicBody2D
 		timer.WaitTime = timer.TimeLeft + 0.4f;
 		currentHP -= dmg;
 		findPlayer(body);
-		hurt = true;
+		Hurt = true;
 		animationPlayer.Stop();
 		animationPlayer.Play("get_hurt", -1, 0.5f);
 	}
 	private void death_cleanup()
 	{
-		world.player.getPoints(20);
+		World.player.getPoints(20);
 		QueueFree();
 	}
 
@@ -192,7 +200,7 @@ public class Enemy : KinematicBody2D
 	private void handleAnimation()
 	{
 		//GD.Print(!hurt && currentHP > 0 && !inCombat && !searchingPlayer);
-		if(!hurt && currentHP > 0 && !inCombat && !searchingPlayer)
+		if(!Hurt && currentHP > 0 && !inCombat && !searchingPlayer)
 		{
 			if(velocity.x != 0)
 			{
@@ -209,7 +217,7 @@ public class Enemy : KinematicBody2D
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(hurt || currentHP <= 0 || inCombat || searchingPlayer) return;
+		if(Hurt || currentHP <= 0 || inCombat || searchingPlayer) return;
 		MoveAndSlide(velocity * delta * 75, Vector2.Up);
 	}
 
@@ -220,21 +228,21 @@ public class Enemy : KinematicBody2D
 
 	private void computeTargetDestination()
 	{
-		targetDestination.x = targetDestination.x + (goesRight * patrolLength);
+		targetDestination.x = targetDestination.x + (GoesRight * PatrolLength);
 		//GD.Print(targetDestination, Position, "at speed", velocity.x);
 	}
 
 	private void turnAround()
 	{
-		goesRight = -1* goesRight;
-		velocity.x = speed * goesRight;
+		GoesRight = -1* GoesRight;
+		velocity.x = speed * GoesRight;
 		sprite.Scale = new Vector2(sprite.Scale.x * -1, sprite.Scale.y);
 		computeTargetDestination();
 	}
 
 	private void handlePatrol()
 	{
-		if(hurt || currentHP <= 0) return;
+		if(Hurt || currentHP <= 0) return;
 		if(Position.x > maxX || Position.x < minX)
 		{
 			Position = targetDestination;
@@ -266,7 +274,7 @@ public class Enemy : KinematicBody2D
 
 	private void handleMovement(float delta)
 	{
-		if(goesRight != 0)
+		if(GoesRight != 0)
 		{
 			handlePatrol();
 		}
@@ -285,26 +293,26 @@ public class Enemy : KinematicBody2D
 		decisionTimer = (Timer)GetNode("decisionTimer");
 		projectilePosition = (Position2D)GetNode("Sprite/Position2D");
 		playerLostTimer = (Timer)GetNode("playerLostTimer");
-		if(goesRight != 0)
+		if(GoesRight != 0)
 		{
-			goesRight = Scale.x;
+			GoesRight = Scale.x;
 		}
-		if(goesRight == 1)
+		if(GoesRight == 1)
 		{
-			maxX = Position.x + patrolLength + 16;
+			maxX = Position.x + PatrolLength + 16;
 			minX = Position.x - 16;
 		}
 		else
 		{
-			maxX = Position.x - patrolLength - 16;
+			maxX = Position.x - PatrolLength - 16;
 			minX = Position.x + 16;
 		}
-		currentHP = maxHP;
-		timer.WaitTime = waitTime;
+		currentHP = MaxHP;
+		timer.WaitTime = WaitTime;
 		targetDestination = Position;
-		speed = walkSpeed;
+		speed = WalkSpeed;
 		computeTargetDestination();
-		velocity.x = goesRight * speed;        
+		velocity.x = GoesRight * speed;        
 		timer.Start();
 	}
 

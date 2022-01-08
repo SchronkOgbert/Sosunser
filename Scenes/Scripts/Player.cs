@@ -20,8 +20,8 @@ public class Player : KinematicBody2D
 
 	//items and abilities
 	private int coins = 0;
-	private int _maxHP = 3;
-	private int _currentHP = 3;
+	private int maxHP = 3;
+	private int currentHP = 3;
 	
 	//references
 	private Sprite sprite;
@@ -33,57 +33,54 @@ public class Player : KinematicBody2D
 	private Timer attackTimer;
 	private World _world;
 
-	//helpers
-	[Export]
-	public int attackIndex = 0;
-	[Export]
-	public bool isAttacking = false;
-	[Export]
-	public bool nextAttack = false;
+    //helpers
+    private int attackIndex = 0;
+    private bool isAttacking = false;
+    private bool nextAttack = false;
 
-	//properties
-	public int maxHP
+    //properties
+    public int MaxHP
 	{
 		get 
 		{ 
-			if(_maxHP >= 0) return _maxHP;
-			return _maxHP;
+			if(maxHP >= 0) return maxHP;
+			return maxHP;
 		}
 		set
 		{
 			if(value < 0)
 			{
-				 _maxHP = 0;
+				 maxHP = 0;
 				 return;
 			}
-			_maxHP = value;
+			maxHP = value;
 		}
 	}
 
-	public int currentHP
+	public int CurrentHP
 	{
 		get 
 		{ 
-			if(_currentHP >= 0) return _currentHP;
-			return _maxHP;
+			if(currentHP >= 0) return currentHP;
+			return maxHP;
 		}
 		set
 		{
 			if(value < 0)
 			{
-				_currentHP = 0;
+				currentHP = 0;
 				return;
 			} 				
-			if(value > maxHP) 
+			if(value > MaxHP) 
 			{
-				currentHP = maxHP;
+				CurrentHP = MaxHP;
 				return;
 			}
-			_currentHP = value;
+			currentHP = value;
 		}
 	}
 
-	public World world
+	public World World
 	{
 		get
 		{
@@ -95,8 +92,14 @@ public class Player : KinematicBody2D
 			return _world;
 		}
 	}
+	[Export]
+	public int AttackIndex { get => attackIndex; set => attackIndex = value; }
+	[Export]
+	public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
+	[Export]
+	public bool NextAttack { get => nextAttack; set => nextAttack = value; }
 
-	public void addCoins(int amount = 1, bool playAnimation = true)
+    public void addCoins(int amount = 1, bool playAnimation = true)
 	{
 		coins += amount;
 		//GD.Print("added", amount, "coin");
@@ -134,9 +137,9 @@ public class Player : KinematicBody2D
 	public void takeDamage(int dmg)
 	{
 		GD.Print("player received damage");
-		currentHP = currentHP - dmg;
-		gameHUD.updateHearts(currentHP);
-		if(currentHP == 0)
+		CurrentHP = CurrentHP - dmg;
+		gameHUD.updateHearts(CurrentHP);
+		if(CurrentHP == 0)
 		{
 			Die();
 		}
@@ -173,26 +176,26 @@ public class Player : KinematicBody2D
 
 	private void startAttack()
 	{
-		switch(attackIndex)
+		switch(AttackIndex)
 		{
 			case 0:
 			{
 				disableSword();
 				player.Stop();
 				player.Play("attack", -1, 2);
-				isAttacking = true;
-				GD.Print(isAttacking);
-				attackIndex++;
+				IsAttacking = true;
+				GD.Print(IsAttacking);
+				AttackIndex++;
 				break;
 			}
 			case 1:
 			{
-				attackIndex = 0;
+				AttackIndex = 0;
 				break;
 			}
 			default: 
 			{
-				attackIndex = 0;
+				AttackIndex = 0;
 				disableSword();
 				break;
 			}
@@ -220,7 +223,7 @@ public class Player : KinematicBody2D
 		velocity.y = 1;
 		try
         {
-			gameHUD = (GameHUD)world.GetNode("GameHUD");
+			gameHUD = (GameHUD)World.GetNode("GameHUD");
         }
 		catch (Exception e)
         {
@@ -229,7 +232,7 @@ public class Player : KinematicBody2D
 		GD.Print(gameHUD);
 		if(gameHUD != null)
 		{
-			gameHUD.hearts = maxHP;
+			gameHUD.hearts = MaxHP;
 			gameHUD.coins = coins;
 		}
 		else
@@ -240,7 +243,7 @@ public class Player : KinematicBody2D
 		// GD.Print(camera.LimitTop);
 		jumpTimer = (Timer)GetNode("JumpTimer");
 		swordCollision = (Area2D)GetNode("Area2D");
-		isAttacking = false;
+		IsAttacking = false;
 	}    
 
 	private void Jump()
@@ -283,7 +286,7 @@ public class Player : KinematicBody2D
 
 	private void checkMovement()
 	{        
-		if(isAttacking)
+		if(IsAttacking)
 		{
 			velocity.x = 0;
 			return;
@@ -338,7 +341,7 @@ public class Player : KinematicBody2D
 		//GD.Print(attackIndex);
 		if(Input.IsActionJustPressed("attack"))
 		{
-			if(attackIndex == 0 || attackIndex == 1 && nextAttack)
+			if(AttackIndex == 0 || AttackIndex == 1 && NextAttack)
 			{
 				//GD.Print("attacking");
 				startAttack();
@@ -348,7 +351,7 @@ public class Player : KinematicBody2D
 
 	private void move(Vector2 velocity, float delta)
 	{
-		if(isAttacking) return;
+		if(IsAttacking) return;
 		if(!isJumping)
 		{
 			if(velocity.x != 0)

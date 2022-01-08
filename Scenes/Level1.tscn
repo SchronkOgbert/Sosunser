@@ -154,19 +154,14 @@ position = Vector2( 656.764, 303.206 )
 
 [node name="Mushroom" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1691.41, 259.438 )
-patrolLength = 1024.0
 Type = 0
 
 [node name="Mushroom3" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1809, 497 )
-patrolLength = 128.0
 Type = 0
 
 [node name="Mushroom2" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2140.35, -6.67056 )
-patrolLength = 256.0
-waitTime = 3.0
-walkSpeed = 120.0
 Type = 0
 
 [node name="Platform" parent="." instance=ExtResource( 14 )]
