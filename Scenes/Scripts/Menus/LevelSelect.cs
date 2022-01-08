@@ -29,7 +29,7 @@ public class LevelSelect : Control
     private void handleOptions()
     {
         if(menuRef.menuState != MainMenu.state.SELECT) return;
-        GD.Print("level select pressing option");
+        //GD.Print("level select pressing option");
         highlightButtons(index);
         if(Input.IsActionJustPressed("ui_accept"))
         {
@@ -51,15 +51,17 @@ public class LevelSelect : Control
             GD.Print("level select changed option up");
             index--;
         }
+        highlightButtons(index);
     }
 
-    private void highlightButtons(int index)
+    private void highlightButtons(int newIndex)
     {
+        //GD.Print(newIndex);
         for(int i = 0; i < 3; i++)
         {
             try
             {
-                if(index == i)
+                if(newIndex == i)
                 {
                     _levelButtons[i].EmitSignal("focus_entered");
                 }
@@ -85,8 +87,10 @@ public class LevelSelect : Control
             Godot.Button buffer = (Godot.Button)buttonList.GetNode("LevelButton");
             GD.Print(buffer);
             _levelButtons.Add(buffer);
-            // _levelButtons.Add((Godot.Button)buttonList.GetNode("LevelButton1"));
-            // _levelButtons.Add((Godot.Button)buttonList.GetNode("LevelButton2"));
+            buffer = (Godot.Button)buttonList.GetNode("LevelButton2");
+            _levelButtons.Add(buffer);
+            buffer = (Godot.Button)buttonList.GetNode("LevelButton3");
+            _levelButtons.Add(buffer);
         }
         catch (NullReferenceException e)
         {
@@ -103,7 +107,7 @@ public class LevelSelect : Control
         }
         catch(Exception e)
         {
-            GD.Print(e);
+            //GD.Print("Level select says:\n\n", e);
         }
     }
 }

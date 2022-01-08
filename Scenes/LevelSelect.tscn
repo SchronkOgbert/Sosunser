@@ -23,6 +23,7 @@ levelPath = "res://Scenes/Level1.tscn"
 margin_top = 58.2712
 margin_bottom = 58.2712
 labelText = "Level 2"
+levelPath = "res://Scenes/Level2.tscn"
 
 [node name="LevelButton3" parent="ItemList" instance=ExtResource( 2 )]
 margin_top = 116.727

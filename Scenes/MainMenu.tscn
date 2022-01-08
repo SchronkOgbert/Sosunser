@@ -86,17 +86,18 @@ margin_top = 122.0
 margin_right = 805.0
 margin_bottom = 507.0
 
-[node name="LevelSelect" parent="." instance=ExtResource( 4 )]
-visible = false
-margin_left = 227.688
-margin_top = 137.179
-margin_right = 227.688
-margin_bottom = 137.179
-
-[node name="ChangeStatetimer" type="Timer" parent="."]
+[node name="ChangeStateTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="LevelSelect" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_left = 219.226
+margin_top = 152.45
+margin_right = 219.226
+margin_bottom = 152.45
 
 [connection signal="pressed" from="Buttons/Button" to="." method="play"]
 [connection signal="pressed" from="Buttons/Button2" to="." method="showOptions"]
 [connection signal="pressed" from="Buttons/Button3" to="." method="quit"]
+[connection signal="timeout" from="ChangeStateTimer" to="." method="changeState"]

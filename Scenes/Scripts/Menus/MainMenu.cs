@@ -15,6 +15,7 @@ public class MainMenu : Control
     private List<Godot.Button> mainButtons = new List<Godot.Button>();
     private Control optionsMenu;
     private bool inMenu = false;
+    private state nextState;
     public int optionNumber
     {
         get { return _optionNumber; }
@@ -31,11 +32,20 @@ public class MainMenu : Control
         get { return _menuState; }
         set 
         { 
-            Timer timer = (Timer)GetNode("ChangeStateTimer");
-            timer.Start();
-            while(timer.TimeLeft > 0);
             _menuState = value; 
         }
+    }
+
+    public void requestChangeState(state newState)
+    {
+        nextState = newState;
+        Timer timer = (Timer)GetNode("ChangeStateTimer");
+        timer.Start();
+    }
+
+    public void changeState()
+    {
+        menuState = nextState;
     }
 
     public void showOptions()
@@ -52,7 +62,7 @@ public class MainMenu : Control
         try
         {
             ((LevelSelect)GetNode("LevelSelect")).Visible = true;
-            menuState = state.SELECT;
+            requestChangeState(state.SELECT);
         }
         catch (Exception e)
         {

@@ -91,6 +91,7 @@ public class Player : KinematicBody2D
 			{
 				_world = (World)GetTree().Root.GetNode("Node2D");
 			}
+			//GD.Print("World is: ", _world);
 			return _world;
 		}
 	}
@@ -217,7 +218,14 @@ public class Player : KinematicBody2D
 	{
 		//player.Play("idle");
 		velocity.y = 1;
-		gameHUD = (GameHUD)world.GetNode("GameHUD");
+		try
+        {
+			gameHUD = (GameHUD)world.GetNode("GameHUD");
+        }
+		catch (Exception e)
+        {
+			GD.PrintErr(e);
+        }
 		GD.Print(gameHUD);
 		if(gameHUD != null)
 		{

@@ -63,14 +63,23 @@ public class LevelButton : Godot.Button
 
     public void loadLevel()
     {
-        GetTree().ChangeScene(levelPath);
+        try
+        {
+            GD.Print(_levelPath);
+            GetTree().ChangeScene(levelPath);
+            GD.Print("loaded level");
+        }
+        catch (Exception e)
+        {
+            GD.Print(e);
+        }
     }
 
     public void _on_LevelButton_focus_entered()
     {
         try
         {
-            animationPlayer.Play("focused");
+            animationPlayer.Play("focused", -1, 2);
         }
         catch(NullReferenceException e)
         {
