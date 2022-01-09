@@ -110,6 +110,7 @@ scale = Vector2( 1024, 1 )
 gravity_vec = Vector2( 0, 0 )
 gravity = 0.0
 collision_layer = 4
+currentSceneName = "res://Scenes/Level1.tscn"
 
 [node name="coinLine" parent="." instance=ExtResource( 5 )]
 position = Vector2( 215.071, 354.92 )
@@ -209,7 +210,7 @@ position = Vector2( 2105.55, -289.594 )
 position = Vector2( 2312.87, -277.46 )
 
 [node name="SecretCamera" parent="." instance=ExtResource( 18 )]
-position = Vector2( 2380.21, -439.039 )
+position = Vector2( 2544.09, -439.039 )
 scale = Vector2( 64, 16 )
 upperLimit = -256
 
@@ -361,5 +362,3 @@ position = Vector2( 1705.32, -209.3 )
 [connection signal="body_entered" from="FallZone" to="Player" method="_on_FallZone_body_entered"]
 [connection signal="_on_Pressed_Signal" from="Button" to="Platform" method="activated"]
 [connection signal="_on_Pressed_Signal" from="Button2" to="PriestPlatform" method="activate"]
-[connection signal="body_entered" from="SecretCamera" to="SecretCamera" method="activateSecret"]
-[connection signal="body_exited" from="SecretCamera" to="SecretCamera" method="deactivateSecret"]

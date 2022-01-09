@@ -11,7 +11,8 @@ public class SecretCamera : Area2D
         try
         {
             Camera2D camera = (Camera2D)body.GetNode("Camera2D");
-            camera.LimitTop +=upperLimit;
+            camera.LimitTop += upperLimit;
+            GD.Print(camera.LimitTop);
             camera.LimitRight += rightLimit;
             camera.LimitBottom += bottomLimit;
             camera.LimitLeft += leftLimit;
@@ -33,7 +34,8 @@ public class SecretCamera : Area2D
         try
         {
             camera = (Camera2D)body.GetNode("Camera2D");
-            camera.LimitTop = -16;
+            camera.LimitTop -= upperLimit;
+            GD.Print(camera.LimitTop);
             camera.LimitRight -= rightLimit;
             camera.LimitBottom -= bottomLimit;
             camera.LimitLeft -= leftLimit;

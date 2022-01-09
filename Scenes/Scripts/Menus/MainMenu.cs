@@ -145,6 +145,7 @@ public class MainMenu : Control
         mainButtons.Add(buffer);
         optionsMenu = (Control)GetNode("OptionsMenu");
         ((LevelSelect)GetNode("LevelSelect")).menuRef = this;
+        GetTree().Paused = false;
 
 
         highlightButtons(optionNumber);

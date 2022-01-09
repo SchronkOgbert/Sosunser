@@ -50,8 +50,8 @@ public class Platform : KinematicBody2D
 			Camera2D camera = (Camera2D)GetNode(cameraName);
 			camera.Current = true;
 			GD.Print(timer.WaitTime);
-			timer.Start();
 		}
+		timer.Start();
 		movePlatform(1/75);
 	}
 	public void deactivated()

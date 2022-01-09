@@ -51,11 +51,11 @@ public class Projectile : Area2D
 
 	public void _on_Fireball_body_entered(KinematicBody2D body)
 	{
-		GD.Print("trying to send damage to player");
-		GD.Print(body, "->", _target);
+		//GD.Print("trying to send damage to player");
+		//GD.Print(body, "->", _target);
 		if(body == _target)
 		{
-			GD.Print("sent damage to player");
+			//GD.Print("sent damage to player");
 			body.Call("takeDamage", 1);
 		}
 		QueueFree();
