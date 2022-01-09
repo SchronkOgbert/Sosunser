@@ -26,6 +26,33 @@ public class PauseMenu : CanvasLayer
         GetTree().Quit();
     }
 
+    private void highlightButton(int index)
+    {
+        _buttons[index].RectScale = _buttons[index].RectScale * 0.8f;
+    }
+
+    private void highlightButtons(int index)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            try
+            {
+                if (index == i)
+                {
+                    _buttons[i].RectScale = new Vector2(0.8f, 0.8f);
+                }
+                else
+                {
+                    _buttons[i].RectScale = Vector2.One;
+                }
+            }
+            catch (Exception e)
+            {
+                GD.Print(e);
+            }
+        }
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {

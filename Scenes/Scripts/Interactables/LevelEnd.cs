@@ -21,6 +21,7 @@ public class LevelEnd : Area2D
         {
             try
             {
+                GetTree().Paused = true;
                 PackedScene buffer = (PackedScene)ResourceLoader.Load("res://Scenes/LevelCompleteHUD.tscn");
                 LevelCompleteHUD HUD = (LevelCompleteHUD)buffer.Instance();
                 HUD.setScoreText(world.player.gameHUD.score);

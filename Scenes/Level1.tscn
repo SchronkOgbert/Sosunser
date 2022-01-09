@@ -82,7 +82,7 @@ scale = Vector2( 3, 3 )
 [node name="Player" parent="." groups=[
 "Persist",
 ] instance=ExtResource( 6 )]
-position = Vector2( 112.255, 357.694 )
+position = Vector2( 334.879, -201.855 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( -80.5192, 333.731 )
