@@ -49,7 +49,7 @@ public class GameHUD : CanvasLayer
     public int score
     {
         get { return _score; }
-        set { _score = value; }
+        set { _score = value; setScoreWidget(); }
     }
 
     public Godot.Collections.Dictionary<string, object> Save()

@@ -160,6 +160,11 @@ public class Player : KinematicBody2D
 
     public void takeDamage(int dmg)
     {
+        if(currentHP - dmg > maxHP)
+        {
+            gameHUD.score += 20;
+            return;
+        }
         GD.Print("player received damage");
         CurrentHP = CurrentHP - dmg;
         gameHUD.updateHearts(CurrentHP);
