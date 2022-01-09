@@ -90,37 +90,51 @@ public class GameHUD : CanvasLayer
         setScoreWidget();
     }
 
-    private void makeHearts(int count)
+    private void addHeartWidget(int displacement)
     {
         PackedScene package = (PackedScene)ResourceLoader.Load("res://Scenes/Heart.tscn");
+        GD.Print("making heart ", displacement);
+        try
+        {
+            Heart buffer = (Heart)package.Instance();
+            heartsContainer.AddChild(buffer);
+            heartsList.Add(buffer);
+            buffer.Position = new Vector2(24 + 48 * displacement, 24);
+        }
+        catch (Exception e)
+        {
+            GD.Print("makeHearts(int count):\n", e);
+        }
+    }
+
+    private void makeHearts(int count)
+    {
         GD.Print("making hearts");
+        
         for(int i = 0; i < count; i++)
         {
-            GD.Print("making heart ", i);
-            try
-            {
-                Heart buffer = (Heart)package.Instance();
-                heartsContainer.AddChild(buffer);
-                heartsList.Add(buffer);
-                buffer.Position = new Vector2(24 + 48 * i, 24);                 
-            }
-            catch (Exception e)
-            {
-                GD.Print("makeHearts(int count):\n", e);
-            }
+            addHeartWidget(i);            
         }
     }
 
     public void updateHearts(int count)
     {
+        GD.Print("Player now has ", count, " hearts");
+        if(count > heartsList.Count)
+        {
+            GD.Print("remaking hearts: ", count);
+            addHeartWidget(count - 1);
+        }
         foreach(Heart heart in heartsList)
         {
             if(count > 0)
             {
+                GD.Print("showing heart...");
                 count--;
                 heart.Texture = (Texture)GD.Load("res://Textures/platform_metroidvania asset pack v1.01/hud elements/hearts_hud.png");
                 continue;
             }
+            GD.Print("not showing heart");
             heart.Texture = (Texture)GD.Load("res://Textures/platform_metroidvania asset pack v1.01/hud elements/no_hearts_hud.png");
         }
     }

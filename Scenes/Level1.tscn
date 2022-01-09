@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Tilesets/DefaultTiles.tres" type="TileSet" id=1]
 [ext_resource path="res://Textures/FPSET1_v1.0/_PNG/SET1_bakcground_day1.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Scenes/LevelEnd.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Textures/platform_metroidvania asset pack v1.01/hud elements/PressStart2P-Regular.ttf" type="DynamicFontData" id=20]
 [ext_resource path="res://Scenes/PauseMenu.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/UpgradeOrb.tscn" type="PackedScene" id=22]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 20 )
@@ -82,7 +83,7 @@ scale = Vector2( 3, 3 )
 [node name="Player" parent="." groups=[
 "Persist",
 ] instance=ExtResource( 6 )]
-position = Vector2( 334.879, -201.855 )
+position = Vector2( 1763.9, -158.437 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( -80.5192, 333.731 )
@@ -353,6 +354,9 @@ __meta__ = {
 }
 
 [node name="PauseMenu" parent="." instance=ExtResource( 21 )]
+
+[node name="UpgradeOrb" parent="." instance=ExtResource( 22 )]
+position = Vector2( 1705.32, -209.3 )
 
 [connection signal="body_entered" from="FallZone" to="Player" method="_on_FallZone_body_entered"]
 [connection signal="_on_Pressed_Signal" from="Button" to="Platform" method="activated"]

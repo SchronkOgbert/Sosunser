@@ -116,6 +116,13 @@ public class Player : KinematicBody2D
         };
     }
 
+    public void addHearts(int amount = 1)
+    {
+        MaxHP++;
+        currentHP = maxHP;
+        gameHUD.updateHearts(currentHP);
+    }
+
     public void addCoins(int amount = 1, bool playAnimation = true)
     {
         coins += amount;

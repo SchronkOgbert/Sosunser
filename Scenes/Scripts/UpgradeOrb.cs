@@ -3,9 +3,24 @@ using System;
 
 public class UpgradeOrb : Area2D
 {
-    public void showMenu(KinematicBody2D body)
+    private World world;
+    private World World
     {
-        GetTree().Paused = true;
+        get
+        {
+            if(world == null)
+            {
+                world = (World)GetTree().Root.GetNode("Node2D");
+            }
+            return world;
+        }
+    }
+
+    public void showMenu(KinematicBody2D body)  //in the future you'll be able to 
+    {                                           //upgrade more than just hearts
+        //GetTree().Paused = true;
+        World.player.addHearts();
+        QueueFree();
     }
 
     // Called when the node enters the scene tree for the first time.
