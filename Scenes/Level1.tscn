@@ -28,6 +28,8 @@ font_data = ExtResource( 20 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 11 )
+ResourceName = "res://Scenes/Level1.tscn"
+NextLevelResource = "res://Scenes/Level2.tscn"
 
 [node name="Background" type="ParallaxBackground" parent="."]
 scale = Vector2( 4.33741, 3.84328 )
@@ -83,7 +85,7 @@ scale = Vector2( 3, 3 )
 [node name="Player" parent="." groups=[
 "Persist",
 ] instance=ExtResource( 6 )]
-position = Vector2( 1763.9, -158.437 )
+position = Vector2( 58.1694, 367.057 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2( -80.5192, 333.731 )

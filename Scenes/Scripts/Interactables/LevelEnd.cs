@@ -15,6 +15,7 @@ public class LevelEnd : Area2D
 			return _world;
 		}
 	}
+
     public void completeLevel(KinematicBody2D body)
     {
         if(body == world.player)
@@ -28,8 +29,9 @@ public class LevelEnd : Area2D
                 //world.player.gameHUD.Visible = false;
                 world.AddChild(HUD);
                 world.RemoveChild(world.player.gameHUD);
-                Timer timer = (Timer)GetNode("Timer");
-                timer.Start();
+                //Timer timer = (Timer)GetNode("Timer");
+                //timer.Start();
+                //GetTree().ChangeScene(NextLevel);
             }
             catch(Exception e)
             {
