@@ -8,6 +8,9 @@ public class World : Node2D
 
 	private Player _player;
 
+	private string resourceName;
+	private string nextLevelResource;
+
 	public Player player
 	{
 		get
@@ -19,8 +22,12 @@ public class World : Node2D
 			return _player;
 		}
 	}
+	[Export]
+    public string ResourceName { get => resourceName; set => resourceName = value; }
+	[Export]
+    public string NextLevelResource { get => nextLevelResource; set => nextLevelResource = value; }
 
-	public bool compareFloatsWithError(float x, float y, float error = 0.1f)
+    public bool compareFloatsWithError(float x, float y, float error = 0.1f)
 	{
 		return (Math.Abs(x - y) < error);
 	}

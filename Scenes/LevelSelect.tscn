@@ -26,6 +26,7 @@ labelText = "Level 2"
 levelPath = "res://Scenes/Level2.tscn"
 
 [node name="LevelButton3" parent="ItemList" instance=ExtResource( 2 )]
+visible = false
 margin_top = 116.727
 margin_bottom = 116.727
 labelText = "Level 3"

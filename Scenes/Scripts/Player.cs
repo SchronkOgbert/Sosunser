@@ -179,7 +179,7 @@ public class Player : KinematicBody2D
         GD.Print("me ded");
         try
         {
-            GetTree().ChangeScene("res://Scenes/Level1.tscn");
+            GetTree().ChangeScene(World.ResourceName);
         }
         catch (Exception e)
         {
